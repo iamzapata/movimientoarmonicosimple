@@ -1,14 +1,20 @@
 {
-  "name": "MasBloque",
+  "name": "movimiento-armonico-simple",
   "version": "1.0.0",
   "description": "Simulador movimiento armónico simple",
-  "main": "index.js",
   "repository": "masbloque.azapata.io",
   "author": "Andres Zapata",
   "license": "MIT",
-  "private": false,
+  "private": true,
+  "scripts": {
+    "dev": "webpack-dev-server --mode=development --open --hot --content-base dist",
+    "build": "NODE_ENV=production webpack --mode=production"
+  },
   "devDependencies": {
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "webpack-dev-server": "^3.10.3"
   }
 }
