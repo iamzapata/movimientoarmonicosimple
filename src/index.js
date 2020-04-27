@@ -8,5 +8,5 @@ if (process.env.NODE_ENV === 'development') {
 
 (function init() {
   const canvas = new Canvas()
-  canvas.draw()
+  canvas.actualizarCanvas()
 })()

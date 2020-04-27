@@ -24,6 +24,10 @@ canvas {
   justify-content: center;
 }
 
+.column.play-pause button {
+  margin-right: 1em;
+}
+
 .Controles.section {
   max-width: 1000px;
   width: 1000px;

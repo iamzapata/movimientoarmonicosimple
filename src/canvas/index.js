@@ -1,11 +1,7 @@
 import autoBind from "auto-bind";
 import valoresIniciales from "src/init/valoresIniciales";
 import { PI2 } from "src/constants";
-import {
-  playButton,
-  pauseButton,
-  stopButton,
-} from "src/controles";
+import { playButton, pauseButton, stopButton } from "src/controles";
 
 class Canvas {
   constructor() {
@@ -46,15 +42,15 @@ class Canvas {
       reproduccionEnCurso,
     } = valoresIniciales;
 
-    
     this.amplitud = amplitud;
     this.frecuenciaAngular = frecuencia_angular;
     this.faseInicial = faseInicial;
     this.reproduccionEnCurso = reproduccionEnCurso;
+    this.t = 0;
 
-    playButton.disabled = false
-    pauseButton.disabled = true
-    stopButton.disabled = true
+    playButton.disabled = false;
+    pauseButton.disabled = true;
+    stopButton.disabled = true;
     this.reproduccionEnCurso = false;
   }
 
@@ -72,7 +68,7 @@ class Canvas {
         this.faseInicial = parseInt(valor);
         break;
       case "play":
-        stopButton.disabled = false
+        stopButton.disabled = false;
         pauseButton.disabled = false;
         playButton.disabled = true;
         this.reproduccionEnCurso = true;
@@ -83,32 +79,17 @@ class Canvas {
         this.reproduccionEnCurso = false;
         break;
       case "stop":
-        this.reestablecerValores()
+        this.reestablecerValores();
+        break;
       default:
         null;
     }
   }
 
-  drawHelpGrid() {
-    const { width: canvasWidth, height: canvasHeight } = this;
-    for (let x = 0; x <= canvasWidth; x += this.boxDimension) {
-      this.context.moveTo(0.5 + x, 0);
-      this.context.lineTo(0.5 + x, canvasHeight - 20);
-    }
-
-    for (let x = 0; x <= canvasHeight; x += this.boxDimension) {
-      this.context.moveTo(0, 0.5 + x);
-      this.context.lineTo(canvasWidth - 40, 0.5 + x);
-    }
-    this.context.lineWidth = 1;
-    this.context.strokeStyle = "black";
-    this.context.stroke();
-  }
-
-  drawSpring({
-    initialX,
-    initialY,
-    currentXPosition,
+  actualizarPosicionResorte({
+    xInicial,
+    yInicial,
+    posicionXActual,
     windings,
     windingHeight,
     offsetPadding,
@@ -124,27 +105,27 @@ class Canvas {
     this.context.lineJoin = "bevel";
     this.context.lineCap = "square";
     this.context.beginPath();
-    this.context.moveTo(initialX, initialY);
+    this.context.moveTo(xInicial, yInicial);
 
-    initialX += offsetPadding;
-    currentXPosition -= offsetPadding;
-    let x = currentXPosition - initialX;
-    let yPathEnd = 0; //initialY - initialY
+    xInicial += offsetPadding;
+    posicionXActual -= offsetPadding;
+    let x = posicionXActual - xInicial;
+    let yPathEnd = 0; //yInicial - yInicial
 
     for (let i = 0; i <= 1 - step; i += step) {
       // for each winding
       for (let j = 0; j < 1; j += step) {
-        let xx = initialX + x * (i + j * step);
-        let yy = initialY;
+        let xx = xInicial + x * (i + j * step);
+        let yy = yInicial;
         xx -= Math.sin(j * Math.PI * 2);
         yy += Math.sin(j * Math.PI * 2) * windingHeight;
         this.context.lineTo(xx, yy);
       }
     }
 
-    // finishes off backside drawing, including black -line
-    this.context.lineTo(currentXPosition, initialY);
-    this.context.lineTo(currentXPosition + offsetPadding, initialY);
+    // finishes off backside actualizarCanvasing, including black -line
+    this.context.lineTo(posicionXActual, yInicial);
+    this.context.lineTo(posicionXActual + offsetPadding, yInicial);
     this.context.stroke();
 
     this.context.strokeStyle = frontSideColor;
@@ -154,18 +135,18 @@ class Canvas {
     this.context.beginPath();
 
     // left horizontal bar
-    this.context.moveTo(initialX - offsetPadding, initialY);
-    this.context.lineTo(initialX, initialY);
+    this.context.moveTo(xInicial - offsetPadding, yInicial);
+    this.context.lineTo(xInicial, yInicial);
 
     // right horizontal bar
-    this.context.moveTo(currentXPosition, initialY);
-    this.context.lineTo(currentXPosition + offsetPadding, initialY);
+    this.context.moveTo(posicionXActual, yInicial);
+    this.context.lineTo(posicionXActual + offsetPadding, yInicial);
 
     for (let i = 0; i <= 1 - step; i += step) {
       // for each winding
       for (let j = 0.25; j <= 0.76; j += 0.01) {
-        let xx = initialX + x * (i + j * step);
-        let yy = initialY + yPathEnd * (i + j * step);
+        let xx = xInicial + x * (i + j * step);
+        let yy = yInicial + yPathEnd * (i + j * step);
         xx -= Math.sin(j * Math.PI * 2);
         yy += Math.sin(j * Math.PI * 2) * windingHeight;
         if (j === 0.25) {
@@ -178,17 +159,13 @@ class Canvas {
     this.context.stroke();
   }
 
-  displaySpring(x) {
-    /*this.context.setTransform(1, 0, 0, 1, 0, 0) // reset transform
-    this.context.globalAlpha = 1 // reset alpha
-    this.context.lineWidth = 1*/
-
+  dibujarResorte(x) {
     const { height: canvasHeight } = this;
-    this.drawSpring({
-      initialX: 1,
-      initialY: canvasHeight / 2 - 40,
-      currentXPosition: x,
-      windings: 15,
+    this.actualizarPosicionResorte({
+      xInicial: 1,
+      yInicial: canvasHeight / 2 - 40,
+      posicionXActual: x,
+      windings: 20,
       windingHeight: 15,
       offsetPadding: 5,
       backSideColor: "rgba(0, 0, 0, 0.9)",
@@ -197,62 +174,53 @@ class Canvas {
     });
   }
 
-  drawBox(x, yInitial) {
+  dibujarCaja(x, yInitial) {
     const { height: canvasHeight } = this;
-    this.context.fillStyle = "rgba(255, 0, 0, 1)";
     const y = yInitial + canvasHeight / 2 - this.boxDimension;
-
-    //this.draGreenBackground(x, y, this.boxDimension)
-
-    this.context.strokeStyle = "black";
+    this.context.save();
+    this.context.fillStyle = "rgba(255, 0, 0, 1)";
     this.context.lineWidth = 1;
-    this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
+    this.context.fillStyle = "rgba(0, 0, 0, 0.3)";
     this.context.strokeRect(x, y, this.boxDimension, this.boxDimension);
     this.context.fillRect(x, y, this.boxDimension, this.boxDimension);
+    this.context.restore();
   }
 
-  draGreenBackground() {
-    const { width: canvasWidth, height: canvasHeight } = this;
-    this.context.fillStyle = "rgba(0, 255, 0, 1)";
-    this.context.fillRect(
-      1,
-      canvasHeight / 2 - this.boxDimension,
-      canvasWidth - this.boxDimension / 2,
-      this.boxDimension
-    );
-  }
-
-  drawFloor(context, canvasHeight, canvasWidth) {
+  dibujarPiso(context, canvasHeight, canvasWidth) {
+    this.context.save();
     context.beginPath();
+    context.strokeStyle = "black";
     context.moveTo(0, canvasHeight / 2);
     context.lineTo(canvasWidth - 50, canvasHeight / 2);
     context.stroke();
     context.closePath();
+    this.context.restore();
   }
 
-  drawWall(context, canvasHeight) {
+  dibujarPared(context, canvasHeight) {
+    this.context.save();
     context.lineWidth = 5;
     context.strokeStyle = "black";
     context.beginPath();
-    context.moveTo(0, 1);
+    context.moveTo(0, 0);
     context.lineTo(0, canvasHeight / 2);
     context.stroke();
     context.closePath();
+    this.context.restore();
   }
 
-  draw() {
+  actualizarCanvas() {
     const { width: canvasWidth, height: canvasHeight } = this;
+    const { amplitud, frecuenciaAngular, reproduccionEnCurso } = this;
 
     const context = this.context;
 
     const currentT = this.t;
 
-    this.drawWall(context, canvasHeight);
-    this.drawFloor(context, canvasHeight, canvasWidth);
+    this.dibujarPared(context, canvasHeight);
+    this.dibujarPiso(context, canvasHeight, canvasWidth);
 
-    const { amplitud, frecuenciaAngular, reproduccionEnCurso } = this;
-
-    if (this.t > this.limit) this.t = 1;
+    if (this.t > this.limit) this.t = 0;
 
     const x =
       amplitud * Math.cos(frecuenciaAngular * this.t) +
@@ -266,20 +234,20 @@ class Canvas {
     }
 
     this.clearPath();
-    this.drawBox(x, -1);
-    this.displaySpring(x);
+    this.dibujarCaja(x, 0);
+    this.dibujarResorte(x);
 
     this.context.restore();
-    requestAnimationFrame(this.draw);
+    requestAnimationFrame(this.actualizarCanvas);
   }
 
   clearPath() {
     const { width: canvasWidth, height: canvasHeight } = this;
     this.context.clearRect(
       5,
-      canvasHeight / 2 - this.boxDimension - 5,
+      canvasHeight / 2 - this.boxDimension - 10,
       canvasWidth,
-      this.boxDimension
+      this.boxDimension + 10
     );
   }
 }
