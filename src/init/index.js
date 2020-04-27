@@ -1,4 +1,5 @@
 import {
+  desplazamientoInicial,
   inputAmplitud,
   inputFrecuenciaAngular,
   inputFaseInicial,
@@ -10,6 +11,10 @@ import {
 const canvas = document.getElementById("canvas");
 
 import valoresIniciales from "src/init/valoresIniciales";
+
+desplazamientoInicial.value = valoresIniciales.desplazamiento_inicial
+desplazamientoInicial.min = valoresIniciales.amplitud * -1
+desplazamientoInicial.max = valoresIniciales.amplitud
 
 inputAmplitud.value = valoresIniciales.amplitud;
 
@@ -30,6 +35,10 @@ const despacharEvento = (evento) => {
   canvas.dispatchEvent(nuevoEvento);
 };
 
+
+desplazamientoInicial.removeEventListener('onChange', desplazamientoInicial.onchange)
+desplazamientoInicial.onchange = (evento) => despacharEvento(evento);
+
 inputAmplitud.removeEventListener('onChange', inputAmplitud.onchange)
 inputAmplitud.onchange = (evento) => despacharEvento(evento);
 
@@ -39,10 +48,7 @@ inputFrecuenciaAngular.onchange = (evento) => despacharEvento(evento);
 inputFaseInicial.removeEventListener('onChange', inputFaseInicial.onchange)
 inputFaseInicial.onchange = (evento) => despacharEvento(evento);
 
-
-const playButtonEvent = (evento) => playButtonEvent(evento); 
-playButton.removeEventListener('onClick', playButtonEvent)
-playButton.addEventListener('onClick', playButtonEvent)
+playButton.removeEventListener('onClick', playButton.onclick)
 playButton.onclick = (evento) => despacharEvento(evento);
 
 pauseButton.removeEventListener('onClick', pauseButton.onclick)

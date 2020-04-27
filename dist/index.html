@@ -20,6 +20,30 @@
   </head>
   <body>
     <div id="app">
+      <section class="section">
+        <div class="column">
+          <div class="field is-vertical">
+            <div class="field-label is-normal is-marginless">
+              <label class="label">Desplazamiento Inicial</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <input
+                  class="w-100"
+                  id="desplazamiento_inicial"
+                  name="desplazamiento_inicial"
+                  placeholder="Desplazamiento Inicial"
+                  type="range"
+                  min="-100"
+                  max="100"
+                  value="0"
+                  class="slider"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <canvas id="canvas" width="1000" height="340"></canvas>
       <section class="Controles section">
         <div class="container is-fluid is-paddingles">
@@ -81,7 +105,7 @@
               </div>
               <div class="column play-pause">
                 <div class="control px-1">
-                  <button name="stop" type="button" class="button"  disabled="">
+                  <button name="stop" type="button" class="button" disabled="">
                     <span class="icon is-small"
                       ><i class="fa fa-stop-circle"></i
                     ></span>

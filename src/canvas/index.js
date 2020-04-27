@@ -1,7 +1,7 @@
 import autoBind from "auto-bind";
 import valoresIniciales from "src/init/valoresIniciales";
 import { PI2 } from "src/constants";
-import { playButton, pauseButton, stopButton } from "src/controles";
+import { playButton, pauseButton, stopButton, desplazamientoInicial } from "src/controles";
 
 class Canvas {
   constructor() {
@@ -11,7 +11,7 @@ class Canvas {
     const {
       amplitud,
       frecuencia_angular,
-      faseInicial,
+      fase_inicial,
       reproduccionEnCurso,
     } = valoresIniciales;
 
@@ -19,13 +19,14 @@ class Canvas {
     this.height = height;
     this.amplitud = amplitud;
     this.frecuenciaAngular = frecuencia_angular;
-    this.faseInicial = faseInicial;
+    this.faseInicial = fase_inicial;
     this.reproduccionEnCurso = reproduccionEnCurso;
-    this.t = 0;
+    this.x = 0;
     this.limit = PI2;
     this.delta = 0.1;
     this.boxDimension = 80;
     this.springCompressedWidth = 160;
+
 
     autoBind(this);
 
@@ -38,19 +39,21 @@ class Canvas {
     const {
       amplitud,
       frecuencia_angular,
-      faseInicial,
+      fase_inicial,
       reproduccionEnCurso,
     } = valoresIniciales;
 
     this.amplitud = amplitud;
     this.frecuenciaAngular = frecuencia_angular;
-    this.faseInicial = faseInicial;
+    this.faseInicial = fase_inicial;
     this.reproduccionEnCurso = reproduccionEnCurso;
-    this.t = 0;
+    this.x = 0
 
-    playButton.disabled = false;
     pauseButton.disabled = true;
     stopButton.disabled = true;
+    playButton.disabled = false;
+    desplazamientoInicial.disabled = false
+
     this.reproduccionEnCurso = false;
   }
 
@@ -58,6 +61,9 @@ class Canvas {
     const { tipo, valor } = evento.detail;
     console.warn({ tipo, valor });
     switch (tipo) {
+      case "desplazamiento_inicial":
+        this.xInicial = parseInt(valor)
+        break;
       case "amplitud":
         this.amplitud = parseInt(valor);
         break;
@@ -68,6 +74,7 @@ class Canvas {
         this.faseInicial = parseInt(valor);
         break;
       case "play":
+        desplazamientoInicial.disabled = true
         stopButton.disabled = false;
         pauseButton.disabled = false;
         playButton.disabled = true;
@@ -76,6 +83,7 @@ class Canvas {
       case "pause":
         pauseButton.disabled = true;
         playButton.disabled = false;
+        desplazamientoInicial.disabled = false
         this.reproduccionEnCurso = false;
         break;
       case "stop":
@@ -211,26 +219,26 @@ class Canvas {
 
   actualizarCanvas() {
     const { width: canvasWidth, height: canvasHeight } = this;
-    const { amplitud, frecuenciaAngular, reproduccionEnCurso } = this;
+    const { amplitud, frecuenciaAngular, reproduccionEnCurso, faseInicial } = this;
 
     const context = this.context;
 
-    const currentT = this.t;
+    const currentT = this.x;
 
     this.dibujarPared(context, canvasHeight);
     this.dibujarPiso(context, canvasHeight, canvasWidth);
 
-    if (this.t > this.limit) this.t = 0;
+    if (this.x > this.limit) this.x = 0;
 
     const x =
-      amplitud * Math.cos(frecuenciaAngular * this.t) +
+      amplitud * Math.cos(frecuenciaAngular * this.x + faseInicial) +
       amplitud +
       this.springCompressedWidth;
 
     if (reproduccionEnCurso) {
-      this.t += this.delta;
+      this.x += this.delta;
     } else {
-      this.t = currentT;
+      this.x = currentT;
     }
 
     this.clearPath();
