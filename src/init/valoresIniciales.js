@@ -1,6 +1,8 @@
 const valoresIniciales = {
   desplazamineto_inicial: 0,
-  amplitud: 100,
+  amplitud: 0,
+  amplitud_max: 6,
+  amplificador_amplitud: 100,
   frecuencia_angular: 1,
   fase_inicial: 1,
   reproduccionEnCurso: false,

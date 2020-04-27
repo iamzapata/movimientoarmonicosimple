@@ -1,5 +1,5 @@
 import {
-  desplazamientoInicial,
+  rangeAmplitud,
   inputAmplitud,
   inputFrecuenciaAngular,
   inputFaseInicial,
@@ -12,11 +12,13 @@ const canvas = document.getElementById("canvas");
 
 import valoresIniciales from "src/init/valoresIniciales";
 
-desplazamientoInicial.value = valoresIniciales.desplazamiento_inicial
-desplazamientoInicial.min = valoresIniciales.amplitud * -1
-desplazamientoInicial.max = valoresIniciales.amplitud
+rangeAmplitud.value = valoresIniciales.desplazamiento_inicial;
+rangeAmplitud.min = valoresIniciales.amplitud_max * -1;
+rangeAmplitud.max = valoresIniciales.amplitud_max;
 
 inputAmplitud.value = valoresIniciales.amplitud;
+inputAmplitud.min = valoresIniciales.amplitud_max * -1;
+inputAmplitud.max = valoresIniciales.amplitud_max;
 
 inputFrecuenciaAngular.value = valoresIniciales.frecuencia_angular;
 
@@ -35,24 +37,29 @@ const despacharEvento = (evento) => {
   canvas.dispatchEvent(nuevoEvento);
 };
 
+rangeAmplitud.removeEventListener(
+  "onChange",
+  rangeAmplitud.onchange
+);
+rangeAmplitud.onchange = (evento) => despacharEvento(evento);
 
-desplazamientoInicial.removeEventListener('onChange', desplazamientoInicial.onchange)
-desplazamientoInicial.onchange = (evento) => despacharEvento(evento);
-
-inputAmplitud.removeEventListener('onChange', inputAmplitud.onchange)
+inputAmplitud.removeEventListener("onChange", inputAmplitud.onchange);
 inputAmplitud.onchange = (evento) => despacharEvento(evento);
 
-inputFrecuenciaAngular.removeEventListener('onChange', inputFrecuenciaAngular.onchange )
+inputFrecuenciaAngular.removeEventListener(
+  "onChange",
+  inputFrecuenciaAngular.onchange
+);
 inputFrecuenciaAngular.onchange = (evento) => despacharEvento(evento);
 
-inputFaseInicial.removeEventListener('onChange', inputFaseInicial.onchange)
+inputFaseInicial.removeEventListener("onChange", inputFaseInicial.onchange);
 inputFaseInicial.onchange = (evento) => despacharEvento(evento);
 
-playButton.removeEventListener('onClick', playButton.onclick)
+playButton.removeEventListener("onClick", playButton.onclick);
 playButton.onclick = (evento) => despacharEvento(evento);
 
-pauseButton.removeEventListener('onClick', pauseButton.onclick)
+pauseButton.removeEventListener("onClick", pauseButton.onclick);
 pauseButton.onclick = (evento) => despacharEvento(evento);
 
-document.removeEventListener('onClick', stopButton.onclick)
+document.removeEventListener("onClick", stopButton.onclick);
 stopButton.onclick = (evento) => despacharEvento(evento);

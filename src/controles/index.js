@@ -1,4 +1,4 @@
-const desplazamientoInicial = document.getElementsByName('desplazamiento_inicial')[0]
+const rangeAmplitud = document.getElementsByName('desplazamiento_inicial')[0]
 
 const inputAmplitud = document.getElementsByName('amplitud')[0]
 
@@ -13,7 +13,7 @@ const pauseButton = document.getElementsByName('pause')[0]
 const stopButton = document.getElementsByName('stop')[0]
 
 export {
-  desplazamientoInicial,
+  rangeAmplitud,
   inputAmplitud, 
   inputFrecuenciaAngular,
   inputFaseInicial,

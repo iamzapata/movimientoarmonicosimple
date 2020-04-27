@@ -5,7 +5,10 @@ import {
   playButton,
   pauseButton,
   stopButton,
-  desplazamientoInicial,
+  rangeAmplitud,
+  inputAmplitud,
+  inputFrecuenciaAngular,
+  inputFaseInicial,
 } from "src/controles";
 
 class Canvas {
@@ -18,11 +21,12 @@ class Canvas {
       frecuencia_angular,
       fase_inicial,
       reproduccionEnCurso,
+      amplificador_amplitud,
     } = valoresIniciales;
 
     this.width = width;
     this.height = height;
-    this.amplitud = amplitud;
+    this.amplitud = amplitud * amplificador_amplitud;
     this.frecuenciaAngular = frecuencia_angular;
     this.faseInicial = fase_inicial;
     this.reproduccionEnCurso = reproduccionEnCurso;
@@ -30,7 +34,6 @@ class Canvas {
     this.limite = PI2;
     this.delta = 0.05;
     this.boxDimension = 80;
-    this.springCompressedWidth = 150;
 
     autoBind(this);
 
@@ -56,29 +59,37 @@ class Canvas {
     pauseButton.disabled = true;
     stopButton.disabled = true;
     playButton.disabled = false;
-    desplazamientoInicial.disabled = false;
+    rangeAmplitud.disabled = false;
 
     this.reproduccionEnCurso = false;
   }
 
   controlarSimulacion(evento) {
-    const { tipo, valor } = evento.detail;
-    console.warn({ tipo, valor });
+    const { amplificador_amplitud } = valoresIniciales;
+
+    let { tipo, valor } = evento.detail;
+
+    valor = parseInt(valor);
+
+    console.warn({ valor });
+
     switch (tipo) {
       case "desplazamiento_inicial":
-        this.tInicial = parseInt(valor);
+        this.amplitud = valor * amplificador_amplitud;
+        inputAmplitud.value = valor;
         break;
       case "amplitud":
-        this.amplitud = parseInt(valor);
+        this.amplitud = valor * amplificador_amplitud;
+        rangeAmplitud.value = valor;
         break;
       case "frecuencia_angular":
-        this.frecuenciaAngular = parseInt(valor);
+        this.frecuenciaAngular = valor;
         break;
       case "fase_iniacial":
-        this.faseInicial = parseInt(valor);
+        this.faseInicial = valor;
         break;
       case "play":
-        desplazamientoInicial.disabled = true;
+        rangeAmplitud.disabled = true;
         stopButton.disabled = false;
         pauseButton.disabled = false;
         playButton.disabled = true;
@@ -87,7 +98,7 @@ class Canvas {
       case "pause":
         pauseButton.disabled = true;
         playButton.disabled = false;
-        desplazamientoInicial.disabled = false;
+        rangeAmplitud.disabled = false;
         this.reproduccionEnCurso = false;
         break;
       case "stop":
@@ -172,10 +183,10 @@ class Canvas {
   }
 
   dibujarResorte(x) {
-    const { height: canvasHeight } = this;
+    const { height: alturaCanvas } = this;
     this.actualizarPosicionResorte({
       xInicial: 1,
-      yInicial: canvasHeight / 2 - 40,
+      yInicial: alturaCanvas / 2 - 40,
       posicionXActual: x,
       windings: 20,
       windingHeight: 15,
@@ -187,8 +198,8 @@ class Canvas {
   }
 
   dibujarCaja(x, yInitial) {
-    const { height: canvasHeight } = this;
-    const y = yInitial + canvasHeight / 2 - this.boxDimension;
+    const { height: alturaCanvas } = this;
+    const y = yInitial + alturaCanvas / 2 - this.boxDimension;
     this.context.save();
     this.context.fillStyle = "rgba(255, 0, 0, 1)";
     this.context.lineWidth = 1;
@@ -198,31 +209,31 @@ class Canvas {
     this.context.restore();
   }
 
-  dibujarPiso(context, canvasHeight, canvasWidth) {
+  dibujarPiso(context, alturaCanvas, anchoCanvas) {
     this.context.save();
     context.beginPath();
     context.strokeStyle = "black";
-    context.moveTo(0, canvasHeight / 2);
-    context.lineTo(canvasWidth - 50, canvasHeight / 2);
+    context.moveTo(0, alturaCanvas / 2);
+    context.lineTo(anchoCanvas - 50, alturaCanvas / 2);
     context.stroke();
     context.closePath();
     this.context.restore();
   }
 
-  dibujarPared(context, canvasHeight) {
+  dibujarPared(context, alturaCanvas) {
     this.context.save();
     context.lineWidth = 5;
     context.strokeStyle = "black";
     context.beginPath();
     context.moveTo(0, 0);
-    context.lineTo(0, canvasHeight / 2);
+    context.lineTo(0, alturaCanvas / 2);
     context.stroke();
     context.closePath();
     this.context.restore();
   }
 
   actualizarCanvas() {
-    const { width: canvasWidth, height: canvasHeight } = this;
+    const { width: anchoCanvas, height: alturaCanvas } = this;
     const {
       amplitud,
       frecuenciaAngular,
@@ -235,14 +246,16 @@ class Canvas {
     const tActual = this.t;
 
     const compresionMinima = amplitud + this.springCompressedWidth;
-    this.dibujarPared(context, canvasHeight);
-    this.dibujarPiso(context, canvasHeight, canvasWidth);
+
+    this.dibujarPared(context, alturaCanvas);
+    this.dibujarPiso(context, alturaCanvas, anchoCanvas);
 
     if (this.t > this.limite) this.t = 0;
 
     const x =
       amplitud * Math.cos(frecuenciaAngular * this.t + faseInicial) +
-      compresionMinima;
+      anchoCanvas / 2 -
+      this.boxDimension;
 
     if (reproduccionEnCurso) {
       this.t += this.delta;
@@ -259,11 +272,11 @@ class Canvas {
   }
 
   clearPath() {
-    const { width: canvasWidth, height: canvasHeight } = this;
+    const { width: anchoCanvas, height: alturaCanvas } = this;
     this.context.clearRect(
       5,
-      canvasHeight / 2 - this.boxDimension - 10,
-      canvasWidth,
+      alturaCanvas / 2 - this.boxDimension - 10,
+      anchoCanvas,
       this.boxDimension + 10
     );
   }
