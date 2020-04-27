@@ -1,0 +1,32 @@
+html {
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+#app {
+  align-items: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+canvas {
+  padding: 10px;
+  border: solid 1px rgba(0, 0, 0, 0.5);
+}
+
+.column.play-pause {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.Controles.section {
+  max-width: 1000px;
+  width: 1000px;
+  padding: 0;
+  padding-top: 1.5rem;
+}

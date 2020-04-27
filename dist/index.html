@@ -4,8 +4,111 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movimiento Armónico Simple</title>
+    <title>Hello Bulma!</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
   </head>
   <body>
+    <div id="app">
+      <canvas id="canvas" width="1000" height="340"></canvas>
+      <section class="Controles section">
+        <div class="container is-fluid is-paddingles">
+          <form>
+            <div class="columns">
+              <div class="column">
+                <div class="field is-vertical">
+                  <div class="field-label is-normal">
+                    <label class="label">Amplitud</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        id="amplitud"
+                        class="input"
+                        type="number"
+                        name="amplitud"
+                        placeholder="Amplitud"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div class="field is-vertical">
+                  <div class="field-label is-normal">
+                    <label class="label">Frequencia Angular</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        id="frecuencia_angular"
+                        class="input"
+                        type="number"
+                        name="frecuencia_angular"
+                        placeholder="Frecuencia Angular"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div class="field is-vertical">
+                  <div class="field-label is-normal">
+                    <label class="label">Ángulo de Desfase</label>
+                  </div>
+                  <div class="field-body">
+                    <div class="field">
+                      <input
+                        id="fase_inicial"
+                        class="input"
+                        type="number"
+                        name="fase_inicial"
+                        placeholder="Ángulo de Desfase"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column play-pause">
+                <div class="control">
+                  <button name="stop" type="button" class="button"  disabled="">
+                    <span class="icon is-small"
+                      ><i class="fa fa-stop-circle"></i
+                    ></span>
+                  </button>
+                </div>
+
+                <div class="control">
+                  <button name="pause" type="button" class="button" disabled="">
+                    <span class="icon is-small"
+                      ><i class="fa fa-pause-circle"></i
+                    ></span>
+                  </button>
+                </div>
+
+                <div class="control">
+                  <button name="play" type="button" class="button">
+                    <span class="icon is-small"
+                      ><i class="fa fa-play-circle"></i
+                    ></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>

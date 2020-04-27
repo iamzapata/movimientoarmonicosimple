@@ -1,10 +1,12 @@
-function component() {
-  const element = document.createElement('div');
+import 'styles/index.css'
+import 'src/init'
+import Canvas from 'src/canvas'
 
-  // Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-  return element;
+if (process.env.NODE_ENV === 'development') {
+  require('../dist/index.html')
 }
 
-document.body.appendChild(component());
+(function init() {
+  const canvas = new Canvas()
+  canvas.draw()
+})()
