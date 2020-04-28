@@ -12,17 +12,22 @@ const canvas = document.getElementById("canvas");
 
 import valoresIniciales from "src/init/valoresIniciales";
 
-rangeAmplitud.value = valoresIniciales.desplazamiento_inicial;
-rangeAmplitud.min = valoresIniciales.amplitud_max * -1;
-rangeAmplitud.max = valoresIniciales.amplitud_max;
+const establecerValoresInput = () => {
+  rangeAmplitud.value = valoresIniciales.desplazamiento_inicial;
+  rangeAmplitud.min = valoresIniciales.amplitud_max * -1;
+  rangeAmplitud.max = valoresIniciales.amplitud_max;
 
-inputAmplitud.value = valoresIniciales.amplitud;
-inputAmplitud.min = valoresIniciales.amplitud_max * -1;
-inputAmplitud.max = valoresIniciales.amplitud_max;
+  inputAmplitud.value = valoresIniciales.amplitud;
+  inputAmplitud.min = valoresIniciales.amplitud_max * -1;
+  inputAmplitud.max = valoresIniciales.amplitud_max;
 
-inputFrecuenciaAngular.value = valoresIniciales.frecuencia_angular;
+  inputFrecuenciaAngular.value = valoresIniciales.frecuencia_angular;
 
-inputFaseInicial.value = valoresIniciales.fase_incial;
+  inputFaseInicial.value = valoresIniciales.fase_inicial;
+  
+};
+
+establecerValoresInput();
 
 const despacharEvento = (evento) => {
   const { value, name } = evento.currentTarget;
@@ -37,10 +42,7 @@ const despacharEvento = (evento) => {
   canvas.dispatchEvent(nuevoEvento);
 };
 
-rangeAmplitud.removeEventListener(
-  "onChange",
-  rangeAmplitud.onchange
-);
+rangeAmplitud.removeEventListener("onChange", rangeAmplitud.onchange);
 rangeAmplitud.onchange = (evento) => despacharEvento(evento);
 
 inputAmplitud.removeEventListener("onChange", inputAmplitud.onchange);
@@ -63,3 +65,5 @@ pauseButton.onclick = (evento) => despacharEvento(evento);
 
 document.removeEventListener("onClick", stopButton.onclick);
 stopButton.onclick = (evento) => despacharEvento(evento);
+
+export { establecerValoresInput };

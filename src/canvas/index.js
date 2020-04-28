@@ -7,15 +7,26 @@ import {
   stopButton,
   rangeAmplitud,
   inputAmplitud,
-  inputFrecuenciaAngular,
-  inputFaseInicial,
 } from "src/controles";
+import { establecerValoresInput } from "src/init";
 
 class Canvas {
   constructor() {
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
+
+    const { canvas } = this;
+
+    const dpr = window.devicePixelRatio
+
+    canvas.width = 1000 * dpr;
+    canvas.height = 500 * dpr;
+
     const { width, height } = this.canvas;
+
+    canvas.style.width = `${width / dpr}px`;
+    canvas.style.height = `${height / dpr}px`;
+
     const {
       amplitud,
       frecuencia_angular,
@@ -33,7 +44,7 @@ class Canvas {
     this.t = 0;
     this.limite = PI2;
     this.delta = 0.05;
-    this.boxDimension = 80;
+    this.dimensionMasa = 100;
 
     autoBind(this);
 
@@ -62,6 +73,8 @@ class Canvas {
     rangeAmplitud.disabled = false;
 
     this.reproduccionEnCurso = false;
+
+    establecerValoresInput();
   }
 
   controlarSimulacion(evento) {
@@ -71,16 +84,16 @@ class Canvas {
 
     valor = parseInt(valor);
 
-    console.warn({ valor });
-
     switch (tipo) {
       case "desplazamiento_inicial":
         this.amplitud = valor * amplificador_amplitud;
         inputAmplitud.value = valor;
         break;
       case "amplitud":
-        this.amplitud = valor * amplificador_amplitud;
+        const valorNuevoAmplitud = valor * amplificador_amplitud;
+        this.amplitud = valorNuevoAmplitud;
         rangeAmplitud.value = valor;
+        console.warn(valor, this.amplitud);
         break;
       case "frecuencia_angular":
         this.frecuenciaAngular = valor;
@@ -123,12 +136,14 @@ class Canvas {
     // step size has to be inversely proportionate to the windings
     const step = 1 / windings;
 
-    this.context.strokeStyle = backSideColor;
-    this.context.lineWidth = lineWidth;
-    this.context.lineJoin = "bevel";
-    this.context.lineCap = "square";
-    this.context.beginPath();
-    this.context.moveTo(xInicial, yInicial);
+    const { context } = this;
+
+    context.strokeStyle = backSideColor;
+    context.lineWidth = lineWidth;
+    context.lineJoin = "bevel";
+    context.lineCap = "square";
+    context.beginPath();
+    context.moveTo(xInicial, yInicial);
 
     xInicial += offsetPadding;
     posicionXActual -= offsetPadding;
@@ -142,28 +157,28 @@ class Canvas {
         let yy = yInicial;
         xx -= Math.sin(j * Math.PI * 2);
         yy += Math.sin(j * Math.PI * 2) * windingHeight;
-        this.context.lineTo(xx, yy);
+        context.lineTo(xx, yy);
       }
     }
 
     // finishes off backside actualizarCanvasing, including black -line
-    this.context.lineTo(posicionXActual, yInicial);
-    this.context.lineTo(posicionXActual + offsetPadding, yInicial);
-    this.context.stroke();
+    context.lineTo(posicionXActual, yInicial);
+    context.lineTo(posicionXActual + offsetPadding, yInicial);
+    context.stroke();
 
-    this.context.strokeStyle = frontSideColor;
-    this.context.lineWidth = lineWidth - 4;
-    this.context.lineJoin = "round";
-    this.context.lineCap = "round";
-    this.context.beginPath();
+    context.strokeStyle = frontSideColor;
+    context.lineWidth = lineWidth - 4;
+    context.lineJoin = "round";
+    context.lineCap = "round";
+    context.beginPath();
 
     // left horizontal bar
-    this.context.moveTo(xInicial - offsetPadding, yInicial);
-    this.context.lineTo(xInicial, yInicial);
+    context.moveTo(xInicial - offsetPadding, yInicial);
+    context.lineTo(xInicial, yInicial);
 
     // right horizontal bar
-    this.context.moveTo(posicionXActual, yInicial);
-    this.context.lineTo(posicionXActual + offsetPadding, yInicial);
+    context.moveTo(posicionXActual, yInicial);
+    context.lineTo(posicionXActual + offsetPadding, yInicial);
 
     for (let i = 0; i <= 1 - step; i += step) {
       // for each winding
@@ -173,20 +188,20 @@ class Canvas {
         xx -= Math.sin(j * Math.PI * 2);
         yy += Math.sin(j * Math.PI * 2) * windingHeight;
         if (j === 0.25) {
-          this.context.moveTo(xx, yy);
+          context.moveTo(xx, yy);
         } else {
-          this.context.lineTo(xx, yy);
+          context.lineTo(xx, yy);
         }
       }
     }
-    this.context.stroke();
+    context.stroke();
   }
 
-  dibujarResorte(x) {
-    const { height: alturaCanvas } = this;
+  dibujarResorte() {
+    const { height: alturaCanvas, x } = this;
     this.actualizarPosicionResorte({
       xInicial: 1,
-      yInicial: alturaCanvas / 2 - 40,
+      yInicial: alturaCanvas / 2 - 50, // 50 es la mitdad el ancho del bloque
       posicionXActual: x,
       windings: 20,
       windingHeight: 15,
@@ -197,31 +212,32 @@ class Canvas {
     });
   }
 
-  dibujarCaja(x, yInitial) {
-    const { height: alturaCanvas } = this;
-    const y = yInitial + alturaCanvas / 2 - this.boxDimension;
-    this.context.save();
-    this.context.fillStyle = "rgba(255, 0, 0, 1)";
-    this.context.lineWidth = 1;
-    this.context.fillStyle = "rgba(0, 0, 0, 0.3)";
-    this.context.strokeRect(x, y, this.boxDimension, this.boxDimension);
-    this.context.fillRect(x, y, this.boxDimension, this.boxDimension);
-    this.context.restore();
+  dibujarMasa() {
+    const yInitial = 0;
+    const { height: alturaCanvas, context, x } = this;
+    const y = yInitial + alturaCanvas / 2 - this.dimensionMasa;
+    context.save();
+    context.fillStyle = "rgba(255, 0, 0, 1)";
+    context.lineWidth = 1;
+    context.fillStyle = "rgba(0, 0, 0, 0.3)";
+    context.strokeRect(x, y, this.dimensionMasa, this.dimensionMasa);
+    context.fillRect(x, y, this.dimensionMasa, this.dimensionMasa);
+    context.restore();
   }
 
   dibujarPiso(context, alturaCanvas, anchoCanvas) {
-    this.context.save();
+    context.save();
     context.beginPath();
     context.strokeStyle = "black";
     context.moveTo(0, alturaCanvas / 2);
-    context.lineTo(anchoCanvas - 50, alturaCanvas / 2);
+    context.lineTo(anchoCanvas, alturaCanvas / 2);
     context.stroke();
     context.closePath();
-    this.context.restore();
+    context.restore();
   }
 
   dibujarPared(context, alturaCanvas) {
-    this.context.save();
+    context.save();
     context.lineWidth = 5;
     context.strokeStyle = "black";
     context.beginPath();
@@ -229,11 +245,94 @@ class Canvas {
     context.lineTo(0, alturaCanvas / 2);
     context.stroke();
     context.closePath();
-    this.context.restore();
+    context.restore();
+  }
+
+  dibujarAmplitudes() {
+    const { width: anchoCanvas, height: alturaCanvas, context } = this;
+
+    if (this.amplitud === 0) return;
+
+    const amplitudMasX =
+      anchoCanvas / 2 + this.amplitud * Math.sign(this.amplitud);
+
+    const amplitudMenosX =
+      anchoCanvas / 2 - this.amplitud * Math.sign(this.amplitud);
+
+    context.save();
+    context.lineWidth = 1;
+    context.strokeStyle = "rgba(0, 255, 0, 0.5)";
+
+    // context.beginPath();
+    // context.moveTo(amplitudMasX, 0);
+    // context.lineTo(amplitudMasX, alturaCanvas - 10);
+    // context.stroke();
+    // context.closePath();
+
+    context.beginPath();
+    context.moveTo(amplitudMenosX, 0);
+    context.lineTo(amplitudMenosX, alturaCanvas - 10);
+    context.stroke();
+    context.closePath();
+
+    context.restore();
+  }
+
+  dibujarEjesVerticalesDeAyuda() {
+    const { width: anchoCanvas, height: alturaCanvas, context } = this;
+
+    context.save();
+    context.lineWidth = 0.2;
+
+    for (let i = anchoCanvas / 2; i < anchoCanvas; i += 100) {
+      if (i == anchoCanvas / 2) continue;
+
+      context.strokeStyle = "rgba(0, 0, 0, 0.2)";
+      context.beginPath();
+      context.moveTo(i, 0 + 50);
+      context.lineTo(i, alturaCanvas - 50);
+      context.stroke();
+    }
+
+    for (let i = anchoCanvas / 2; i > 0; i -= 100) {
+      if (i == anchoCanvas / 2) continue;
+
+      context.beginPath();
+      context.moveTo(i, 0 + 50);
+      context.lineTo(i, alturaCanvas - 50);
+      context.stroke();
+    }
+    context.restore();
+  }
+
+  dibujarPuntoEquilibrio() {
+    const { width: anchoCanvas, height: alturaCanvas, context } = this;
+
+    context.save();
+    context.lineWidth = 1;
+    context.strokeStyle = "rgba(0, 0, 0, 0.5)";
+
+    context.beginPath();
+    context.setLineDash([10, 10]);
+    context.moveTo(anchoCanvas / 2, 0 + 50);
+    context.lineTo(anchoCanvas / 2, alturaCanvas - 50);
+    context.stroke();
+    context.restore();
+  }
+
+  dibujarFuncionMovimiento() {
+    const { width: anchoCanvas, height: alturaCanvas, context, x } = this;
+
+    context.save();
+    context.font = "20px monospace";
+    // context.fillStyle = "green";
+    context.fillText(`f(x) = \u{0041} cos(w)`, anchoCanvas / 2 - 200, 30);
+    context.restore();
   }
 
   actualizarCanvas() {
-    const { width: anchoCanvas, height: alturaCanvas } = this;
+    const { amplificador_amplitud } = valoresIniciales;
+    const { width: anchoCanvas, height: alturaCanvas, context } = this;
     const {
       amplitud,
       frecuenciaAngular,
@@ -241,43 +340,43 @@ class Canvas {
       faseInicial,
     } = this;
 
-    const context = this.context;
-
     const tActual = this.t;
-
-    const compresionMinima = amplitud + this.springCompressedWidth;
 
     this.dibujarPared(context, alturaCanvas);
     this.dibujarPiso(context, alturaCanvas, anchoCanvas);
 
     if (this.t > this.limite) this.t = 0;
 
-    const x =
+    this.x =
       amplitud * Math.cos(frecuenciaAngular * this.t + faseInicial) +
       anchoCanvas / 2 -
-      this.boxDimension;
+      this.dimensionMasa / 2;
+
+    this.clearPath();
+    this.dibujarMasa();
+    this.dibujarResorte();
+    // this.dibujarAmplitudes();
+    this.dibujarPuntoEquilibrio();
+    this.dibujarEjesVerticalesDeAyuda();
+    this.dibujarFuncionMovimiento();
+
+    context.restore();
+    requestAnimationFrame(this.actualizarCanvas);
 
     if (reproduccionEnCurso) {
       this.t += this.delta;
     } else {
       this.t = tActual;
     }
-
-    this.clearPath();
-    this.dibujarCaja(x, 0);
-    this.dibujarResorte(x);
-
-    this.context.restore();
-    requestAnimationFrame(this.actualizarCanvas);
   }
 
   clearPath() {
-    const { width: anchoCanvas, height: alturaCanvas } = this;
-    this.context.clearRect(
+    const { width: anchoCanvas, height: alturaCanvas, context } = this;
+    context.clearRect(
       5,
-      alturaCanvas / 2 - this.boxDimension - 10,
+      alturaCanvas / 2 - this.dimensionMasa - 10,
       anchoCanvas,
-      this.boxDimension + 10
+      this.dimensionMasa + 10
     );
   }
 }
