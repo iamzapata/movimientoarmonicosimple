@@ -83,10 +83,12 @@ class Canvas {
 
     switch (tipo) {
       case "desplazamiento_inicial":
+        if(valor > establecerValoresInput || valor < -establecerValoresInput) return
         this.amplitud = valor;
         inputAmplitud.value = valor;
         break;
       case "amplitud":
+        if(valor > establecerValoresInput || valor < -establecerValoresInput) return
         this.amplitud = valor;
         rangeAmplitud.value = valor;
         break;
@@ -255,18 +257,18 @@ class Canvas {
       anchoCanvas / 2 - this.amplitud * Math.sign(this.amplitud);
 
     context.save();
-    context.lineWidth = 1;
+    context.lineWidth = 0.5;
     context.strokeStyle = "rgba(0, 255, 0, 0.5)";
 
-    // context.beginPath();
-    // context.moveTo(amplitudMasX, 0);
-    // context.lineTo(amplitudMasX, alturaCanvas - 10);
-    // context.stroke();
-    // context.closePath();
+    context.beginPath();
+    context.moveTo(amplitudMasX, 0);
+    context.lineTo(amplitudMasX, alturaCanvas - 100 );
+    context.stroke();
+    context.closePath();
 
     context.beginPath();
     context.moveTo(amplitudMenosX, 0);
-    context.lineTo(amplitudMenosX, alturaCanvas - 10);
+    context.lineTo(amplitudMenosX, alturaCanvas - 100 );
     context.stroke();
     context.closePath();
 
@@ -278,7 +280,7 @@ class Canvas {
     const margen = 100;
 
     context.save();
-    context.lineWidth = 0.2;
+    context.lineWidth = 0.1;
 
     for (let i = anchoCanvas / 2; i < anchoCanvas; i += 100) {
       if (i == anchoCanvas / 2) continue;
@@ -371,10 +373,10 @@ class Canvas {
     this.clearPath();
     this.dibujarMasa();
     this.dibujarResorte();
-    // this.dibujarAmplitudes();
     this.dibujarPuntoEquilibrio();
-    this.dibujarEjesVerticalesDeAyuda();
-    this.dibujarFuncionMovimiento();
+    this.dibujarAmplitudes();
+    // this.dibujarEjesVerticalesDeAyuda();
+    // this.dibujarFuncionMovimiento();
 
     context.restore();
     requestAnimationFrame(this.actualizarCanvas);
