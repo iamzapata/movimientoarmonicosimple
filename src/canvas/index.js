@@ -1,6 +1,6 @@
 import autoBind from "auto-bind";
 import valoresIniciales from "src/init/valoresIniciales";
-import { PI2 } from "src/constants";
+import { PI, PI2 } from "src/constants";
 import {
   playButton,
   pauseButton,
@@ -42,7 +42,7 @@ class Canvas {
     this.reproduccionEnCurso = reproduccionEnCurso;
     this.t = 0;
     this.limite = PI2;
-    this.delta = 0.009;
+    this.delta = 0.1;
     this.dimensionMasa = 100;
 
     autoBind(this);
@@ -84,19 +84,17 @@ class Canvas {
     switch (tipo) {
       case "desplazamiento_inicial":
         this.amplitud = valor;
-        this.faseInicial = 0;
         inputAmplitud.value = valor;
         break;
       case "amplitud":
         this.amplitud = valor;
-        this.faseInicial = 0;
         rangeAmplitud.value = valor;
         break;
       case "frecuencia_angular":
         this.frecuenciaAngular = valor;
         break;
       case "fase_inicial":
-        this.faseInicial = valor * PI / 180
+        this.faseInicial = (-1 * valor * PI) / 180;
         break;
       case "play":
         rangeAmplitud.disabled = true;
