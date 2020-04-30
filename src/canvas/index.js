@@ -17,7 +17,7 @@ class Canvas {
 
     const { canvas } = this;
 
-    const dpr = window.devicePixelRatio
+    const dpr = window.devicePixelRatio;
 
     canvas.width = 1000 * dpr;
     canvas.height = 500 * dpr;
@@ -32,18 +32,17 @@ class Canvas {
       frecuencia_angular,
       fase_inicial,
       reproduccionEnCurso,
-      amplificador_amplitud,
     } = valoresIniciales;
 
     this.width = width;
     this.height = height;
-    this.amplitud = amplitud * amplificador_amplitud;
+    this.amplitud = amplitud;
     this.frecuenciaAngular = frecuencia_angular;
     this.faseInicial = fase_inicial;
     this.reproduccionEnCurso = reproduccionEnCurso;
     this.t = 0;
     this.limite = PI2;
-    this.delta = 0.05;
+    this.delta = 0.009;
     this.dimensionMasa = 100;
 
     autoBind(this);
@@ -78,28 +77,26 @@ class Canvas {
   }
 
   controlarSimulacion(evento) {
-    const { amplificador_amplitud } = valoresIniciales;
-
     let { tipo, valor } = evento.detail;
 
     valor = parseInt(valor);
 
     switch (tipo) {
       case "desplazamiento_inicial":
-        this.amplitud = valor * amplificador_amplitud;
+        this.amplitud = valor;
+        this.faseInicial = 0;
         inputAmplitud.value = valor;
         break;
       case "amplitud":
-        const valorNuevoAmplitud = valor * amplificador_amplitud;
-        this.amplitud = valorNuevoAmplitud;
+        this.amplitud = valor;
+        this.faseInicial = 0;
         rangeAmplitud.value = valor;
-        console.warn(valor, this.amplitud);
         break;
       case "frecuencia_angular":
         this.frecuenciaAngular = valor;
         break;
-      case "fase_iniacial":
-        this.faseInicial = valor;
+      case "fase_inicial":
+        this.faseInicial = valor * PI / 180
         break;
       case "play":
         rangeAmplitud.disabled = true;
@@ -205,7 +202,7 @@ class Canvas {
       posicionXActual: x,
       windings: 20,
       windingHeight: 15,
-      offsetPadding: 5,
+      offsetPadding: 0,
       backSideColor: "rgba(0, 0, 0, 0.9)",
       frontSideColor: "gray",
       lineWidth: 9,
@@ -280,6 +277,7 @@ class Canvas {
 
   dibujarEjesVerticalesDeAyuda() {
     const { width: anchoCanvas, height: alturaCanvas, context } = this;
+    const margen = 100;
 
     context.save();
     context.lineWidth = 0.2;
@@ -289,8 +287,8 @@ class Canvas {
 
       context.strokeStyle = "rgba(0, 0, 0, 0.2)";
       context.beginPath();
-      context.moveTo(i, 0 + 50);
-      context.lineTo(i, alturaCanvas - 50);
+      context.moveTo(i, 0 + margen);
+      context.lineTo(i, alturaCanvas - margen);
       context.stroke();
     }
 
@@ -298,8 +296,8 @@ class Canvas {
       if (i == anchoCanvas / 2) continue;
 
       context.beginPath();
-      context.moveTo(i, 0 + 50);
-      context.lineTo(i, alturaCanvas - 50);
+      context.moveTo(i, 0 + margen);
+      context.lineTo(i, alturaCanvas - margen);
       context.stroke();
     }
     context.restore();
@@ -307,6 +305,7 @@ class Canvas {
 
   dibujarPuntoEquilibrio() {
     const { width: anchoCanvas, height: alturaCanvas, context } = this;
+    const margen = 100;
 
     context.save();
     context.lineWidth = 1;
@@ -314,24 +313,43 @@ class Canvas {
 
     context.beginPath();
     context.setLineDash([10, 10]);
-    context.moveTo(anchoCanvas / 2, 0 + 50);
-    context.lineTo(anchoCanvas / 2, alturaCanvas - 50);
+    context.moveTo(anchoCanvas / 2, 0 + margen);
+    context.lineTo(anchoCanvas / 2, alturaCanvas - margen);
     context.stroke();
     context.restore();
   }
 
   dibujarFuncionMovimiento() {
-    const { width: anchoCanvas, height: alturaCanvas, context, x } = this;
+    const {
+      width: anchoCanvas,
+      height: alturaCanvas,
+      context,
+      x,
+      t,
+      amplitud,
+      frecuenciaAngular,
+      faseInicial,
+    } = this;
+    const textoNuevo = `x(${t}) = ${amplitud} cos(${frecuenciaAngular} * ${t} + ${faseInicial})`;
 
     context.save();
-    context.font = "20px monospace";
-    // context.fillStyle = "green";
-    context.fillText(`f(x) = \u{0041} cos(w)`, anchoCanvas / 2 - 200, 30);
+    context.font = "32px sans-serif";
+    context.fillText(
+      `x(t) = \u{0041} cos(\u{03C9}t + \u{03D5})`,
+      anchoCanvas / 2 - 200,
+      30
+    );
+
+    context.fillStyle = "#ffffff"; // or whatever color the background is.
+    context.fillText(this.ultimoTexto, anchoCanvas / 2 - 200, 70);
+    context.fillStyle = "#000000"; // or whatever color the text should be.
+    context.fillText(textoNuevo, anchoCanvas / 2 - 200, 70);
+    this.ultimoTexto = textoNuevo;
+
     context.restore();
   }
 
   actualizarCanvas() {
-    const { amplificador_amplitud } = valoresIniciales;
     const { width: anchoCanvas, height: alturaCanvas, context } = this;
     const {
       amplitud,
