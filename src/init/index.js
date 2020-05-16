@@ -8,7 +8,7 @@ import {
   stopButton,
 } from "src/controles";
 
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementById("canvasprincipal");
 
 import valoresIniciales from "src/init/valoresIniciales";
 
