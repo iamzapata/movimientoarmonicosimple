@@ -1,5 +1,4 @@
 const valoresIniciales = {
-  desplazamineto_inicial: 0,
   amplitud: 0,
   amplitud_max: 800,
   frecuencia_angular: 1,

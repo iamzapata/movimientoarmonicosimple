@@ -83,8 +83,6 @@ class Canvas {
     establecerValoresInput();
   }
 
-  resetearCanvas() {}
-
   actualizarPosicionResorte({
     xInicial,
     yInicial,
@@ -245,6 +243,20 @@ class Canvas {
     context.restore();
   }
 
+  limpiarAmplitudes() {
+    const {
+      width: anchoCanvas,
+      height: altoCanvas,
+      contextSecundario: context,
+    } = this;
+    context.clearRect(
+      0,
+      0,
+      anchoCanvas,
+      altoCanvas
+    );
+  }
+
   dibujarPuntoEquilibrio() {
     const {
       width: anchoCanvas,
@@ -329,13 +341,14 @@ class Canvas {
     valor = parseInt(valor);
 
     switch (tipo) {
-      case "desplazamiento_inicial":
+      case "amplitud_range":
         if (valor > establecerValoresInput || valor < -establecerValoresInput)
           return;
         this.amplitud = valor;
         inputAmplitud.value = valor;
+        this.limpiarAmplitudes();
         break;
-      case "amplitud":
+      case "amplitud_input":
         if (valor > establecerValoresInput || valor < -establecerValoresInput)
           return;
         this.amplitud = valor;
@@ -362,7 +375,7 @@ class Canvas {
         break;
       case "stop":
         this.reestablecerValores();
-        this.resetearCanvas();
+        this.limpiarAmplitudes();
         break;
       default:
         null;
@@ -390,7 +403,7 @@ class Canvas {
       anchoCanvas / 2 -
       this.dimensionMasa / 2;
 
-    this.clearPath();
+    this.limpiarTrayectoriaMasa();
     this.dibujarMasa();
     this.dibujarResorte();
     this.dibujarPuntoEquilibrio();
@@ -408,7 +421,7 @@ class Canvas {
     }
   }
 
-  clearPath() {
+  limpiarTrayectoriaMasa() {
     const {
       width: anchoCanvas,
       height: altoCanvas,

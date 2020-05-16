@@ -8,12 +8,13 @@ import {
   stopButton,
 } from "src/controles";
 
+// Canvas principal donde se dibuja el bloque y resorte.
 const canvas = document.getElementById("canvasprincipal");
 
 import valoresIniciales from "src/init/valoresIniciales";
 
 const establecerValoresInput = () => {
-  rangeAmplitud.value = valoresIniciales.desplazamiento_inicial;
+  rangeAmplitud.value = valoresIniciales.amplitud_range;
   rangeAmplitud.min = valoresIniciales.amplitud_max * -1;
   rangeAmplitud.max = valoresIniciales.amplitud_max;
 
@@ -29,8 +30,24 @@ const establecerValoresInput = () => {
 
 establecerValoresInput();
 
+// {value: "87", name: "desplazamiento_inicial"}
+// index.js:37 {value: "2", name: "frecuencia_angular"}
+// index.js:37 {value: "1", name: "fase_inicial"}
+// index.js:37 {value: "", name: "play"}
+// {value: "", name: "pause"}
+// index.js:37 {value: "", name: "pause"}
+
+
+/**
+ * 
+ * @parametro evento
+ * 
+ * Cada 
+ */
 const despacharEvento = (evento) => {
   const { value, name } = evento.currentTarget;
+
+  console.warn({value, name})
 
   const nuevoEvento = new CustomEvent("controlarCanvas", {
     detail: {

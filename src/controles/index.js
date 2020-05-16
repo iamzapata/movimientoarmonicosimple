@@ -1,6 +1,6 @@
-const rangeAmplitud = document.getElementsByName('desplazamiento_inicial')[0]
+const rangeAmplitud = document.getElementsByName('amplitud_range')[0]
 
-const inputAmplitud = document.getElementsByName('amplitud')[0]
+const inputAmplitud = document.getElementsByName('amplitud_input')[0]
 
 const inputFrecuenciaAngular = document.getElementsByName('frecuencia_angular')[0]
 
