@@ -33,13 +33,13 @@ body {
 background-color: red;
 }
 
-.column.play-pause {
+.column.iniciar-parar {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.column.play-pause button {
+.column.iniciar-parar button {
   margin-right: 1em;
 }
 

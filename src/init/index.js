@@ -3,9 +3,9 @@ import {
   inputAmplitud,
   inputFrecuenciaAngular,
   inputFaseInicial,
-  playButton,
-  pauseButton,
-  stopButton,
+  botonIniciar,
+  botonPausar,
+  botonParar,
 } from "src/controles";
 
 // Canvas principal donde se dibuja el bloque y resorte.
@@ -30,22 +30,25 @@ const establecerValoresInput = () => {
 
 establecerValoresInput();
 
-// {value: "87", name: "desplazamiento_inicial"}
-// index.js:37 {value: "2", name: "frecuencia_angular"}
-// index.js:37 {value: "1", name: "fase_inicial"}
-// index.js:37 {value: "", name: "play"}
+// {value: "", name: "parar"}
 // {value: "", name: "pause"}
-// index.js:37 {value: "", name: "pause"}
+// {value: "", name: "play"}
+// {value: "0", name: "fase_inicial"}
+// {value: "1", name: "fase_inicial"}
+// {value: "0", name: "frecuencia_angular"}
+// {value: "206", name: "amplitud_range"}
+// {value: "2", name: "amplitud_input"}
 
 
 /**
  * 
- * @parametro evento
+ * @parametro evento: Contiene un nombre y un valor.
  * 
- * Cada 
+ * Typos de Eventos:
+ * 
  */
 const despacharEvento = (evento) => {
-  const { value, name } = evento.currentTarget;
+  const { name, value } = evento.currentTarget;
 
   console.warn({value, name})
 
@@ -74,13 +77,13 @@ inputFrecuenciaAngular.onchange = (evento) => despacharEvento(evento);
 inputFaseInicial.removeEventListener("onChange", inputFaseInicial.onchange);
 inputFaseInicial.onchange = (evento) => despacharEvento(evento);
 
-playButton.removeEventListener("onClick", playButton.onclick);
-playButton.onclick = (evento) => despacharEvento(evento);
+botonIniciar.removeEventListener("onClick", botonIniciar.onclick);
+botonIniciar.onclick = (evento) => despacharEvento(evento);
 
-pauseButton.removeEventListener("onClick", pauseButton.onclick);
-pauseButton.onclick = (evento) => despacharEvento(evento);
+botonPausar.removeEventListener("onClick", botonPausar.onclick);
+botonPausar.onclick = (evento) => despacharEvento(evento);
 
-document.removeEventListener("onClick", stopButton.onclick);
-stopButton.onclick = (evento) => despacharEvento(evento);
+document.removeEventListener("onClick", botonParar.onclick);
+botonParar.onclick = (evento) => despacharEvento(evento);
 
 export { establecerValoresInput };

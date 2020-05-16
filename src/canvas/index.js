@@ -2,9 +2,9 @@ import autoBind from "auto-bind";
 import valoresIniciales from "src/init/valoresIniciales";
 import { PI, PI2 } from "src/constants";
 import {
-  playButton,
-  pauseButton,
-  stopButton,
+  botonIniciar,
+  botonPausar,
+  botonParar,
   rangeAmplitud,
   inputAmplitud,
 } from "src/controles";
@@ -73,9 +73,9 @@ class Canvas {
     this.reproduccionEnCurso = reproduccionEnCurso;
     this.t = 0;
 
-    pauseButton.disabled = true;
-    stopButton.disabled = true;
-    playButton.disabled = false;
+    botonPausar.disabled = true;
+    botonParar.disabled = true;
+    botonIniciar.disabled = false;
     rangeAmplitud.disabled = false;
 
     this.reproduccionEnCurso = false;
@@ -360,20 +360,20 @@ class Canvas {
       case "fase_inicial":
         this.faseInicial = (-1 * valor * PI) / 180;
         break;
-      case "play":
+      case "iniciar":
         rangeAmplitud.disabled = true;
-        stopButton.disabled = false;
-        pauseButton.disabled = false;
-        playButton.disabled = true;
+        botonParar.disabled = false;
+        botonPausar.disabled = false;
+        botonIniciar.disabled = true;
         this.reproduccionEnCurso = true;
         break;
-      case "pause":
-        pauseButton.disabled = true;
-        playButton.disabled = false;
+      case "pausar":
+        botonPausar.disabled = true;
+        botonIniciar.disabled = false;
         rangeAmplitud.disabled = false;
         this.reproduccionEnCurso = false;
         break;
-      case "stop":
+      case "parar":
         this.reestablecerValores();
         this.limpiarAmplitudes();
         break;

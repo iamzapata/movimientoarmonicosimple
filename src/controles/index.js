@@ -6,18 +6,18 @@ const inputFrecuenciaAngular = document.getElementsByName('frecuencia_angular')[
 
 const inputFaseInicial = document.getElementsByName('fase_inicial')[0]
 
-const playButton = document.getElementsByName('play')[0]
+const botonIniciar = document.getElementsByName('iniciar')[0]
 
-const pauseButton = document.getElementsByName('pause')[0]
+const botonPausar = document.getElementsByName('pausar')[0]
 
-const stopButton = document.getElementsByName('stop')[0]
+const botonParar = document.getElementsByName('parar')[0]
 
 export {
   rangeAmplitud,
   inputAmplitud, 
   inputFrecuenciaAngular,
   inputFaseInicial,
-  playButton,
-  pauseButton,
-  stopButton
+  botonIniciar,
+  botonPausar,
+  botonParar
 }
