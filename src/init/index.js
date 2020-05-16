@@ -50,8 +50,6 @@ establecerValoresInput();
 const despacharEvento = (evento) => {
   const { name, value } = evento.currentTarget;
 
-  console.warn({value, name})
-
   const nuevoEvento = new CustomEvent("controlarCanvas", {
     detail: {
       tipo: name,

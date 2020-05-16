@@ -277,68 +277,10 @@ class Canvas {
     context.restore();
   }
 
-  dibujarEjesVerticalesDeAyuda() {
-    const { width: anchoCanvas, height: altoCanvas, contextPrincipal } = this;
-    const margen = 100;
-
-    contextPrincipal.save();
-    contextPrincipal.lineWidth = 0.1;
-
-    for (let i = anchoCanvas / 2; i < anchoCanvas; i += 100) {
-      if (i == anchoCanvas / 2) continue;
-
-      contextPrincipal.strokeStyle = "rgba(0, 0, 0, 0.2)";
-      contextPrincipal.beginPath();
-      contextPrincipal.moveTo(i, 0 + margen);
-      contextPrincipal.lineTo(i, altoCanvas - margen);
-      contextPrincipal.stroke();
-    }
-
-    for (let i = anchoCanvas / 2; i > 0; i -= 100) {
-      if (i == anchoCanvas / 2) continue;
-
-      contextPrincipal.beginPath();
-      contextPrincipal.moveTo(i, 0 + margen);
-      contextPrincipal.lineTo(i, altoCanvas - margen);
-      contextPrincipal.stroke();
-    }
-    contextPrincipal.restore();
-  }
-
-  dibujarFuncionMovimiento() {
-    const {
-      width: anchoCanvas,
-      height: altoCanvas,
-      contextPrincipal,
-      x,
-      t,
-      amplitud,
-      frecuenciaAngular,
-      faseInicial,
-    } = this;
-    const textoNuevo = `x(${t}) = ${amplitud} cos(${frecuenciaAngular} * ${t} + ${faseInicial})`;
-
-    contextPrincipal.save();
-    contextPrincipal.font = "32px sans-serif";
-    contextPrincipal.fillText(
-      `x(t) = \u{0041} cos(\u{03C9}t + \u{03D5})`,
-      anchoCanvas / 2 - 200,
-      30
-    );
-
-    contextPrincipal.fillStyle = "#ffffff"; // or whatever color the background is.
-    contextPrincipal.fillText(this.ultimoTexto, anchoCanvas / 2 - 200, 70);
-    contextPrincipal.fillStyle = "#000000"; // or whatever color the text should be.
-    contextPrincipal.fillText(textoNuevo, anchoCanvas / 2 - 200, 70);
-    this.ultimoTexto = textoNuevo;
-
-    contextPrincipal.restore();
-  }
-
   controlarSimulacion(evento) {
     let { tipo, valor } = evento.detail;
 
-    valor = parseInt(valor);
+    valor = parseFloat(valor);
 
     switch (tipo) {
       case "amplitud_range":
@@ -385,31 +327,31 @@ class Canvas {
   actualizarCanvas() {
     const { width: anchoCanvas, height: altoCanvas, contextPrincipal } = this;
     const {
+      x,
+      t,
       amplitud,
       frecuenciaAngular,
       reproduccionEnCurso,
       faseInicial,
     } = this;
 
-    const tActual = this.t;
+    const tiempoActual = t;
 
     this.dibujarPared(contextPrincipal, altoCanvas);
     this.dibujarPiso(contextPrincipal, altoCanvas, anchoCanvas);
 
-    if (this.t > this.limite) this.t = 0;
-
     this.x =
-      amplitud * Math.cos(frecuenciaAngular * this.t + faseInicial) +
+      amplitud * Math.cos((frecuenciaAngular *t) + faseInicial) +
       anchoCanvas / 2 -
       this.dimensionMasa / 2;
+
+      console.warn({t, x})
 
     this.limpiarTrayectoriaMasa();
     this.dibujarMasa();
     this.dibujarResorte();
     this.dibujarPuntoEquilibrio();
     this.dibujarAmplitudes();
-    // this.dibujarEjesVerticalesDeAyuda();
-    // this.dibujarFuncionMovimiento();
 
     contextPrincipal.restore();
     requestAnimationFrame(this.actualizarCanvas);
@@ -417,7 +359,7 @@ class Canvas {
     if (reproduccionEnCurso) {
       this.t += this.delta;
     } else {
-      this.t = tActual;
+      this.t = tiempoActual;
     }
   }
 
