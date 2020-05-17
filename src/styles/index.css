@@ -29,8 +29,9 @@ body {
   background-color: transparent;
 }
 
-#canvassecundario {
-background-color: red;
+#canvasfaseinicial {
+  margin-top: 5px;
+  border: solid 1px #dbdbdb;
 }
 
 .column.iniciar-parar {

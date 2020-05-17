@@ -18,6 +18,9 @@ class Canvas {
     this.canvasSecundario = document.getElementById("canvassecundario");
     this.contextSecundario = this.canvasSecundario.getContext("2d");
 
+    this.canvasFaseInicial = document.getElementById("canvasfaseinicial");
+    this.contextFaseInicial = this.canvasFaseInicial.getContext("2d");
+
     this.organizarResolucion(this.canvasPrincipal);
     this.organizarResolucion(this.canvasSecundario);
 
@@ -209,6 +212,42 @@ class Canvas {
     contextPrincipal.restore();
   }
 
+  dibujarAnguloFaseInicial() {
+    const { canvasFaseInicial: canvas, contextFaseInicial: context, faseInicial } = this;
+    const dpr = window.devicePixelRatio;
+    const dimension = 70
+
+    canvas.width = dimension * dpr;
+    canvas.height = dimension * dpr;
+
+    const { width, height } = canvas;
+
+    const centro = width / 2
+
+
+    canvas.style.width = `${width / dpr}px`;
+    canvas.style.height = `${height / dpr}px`;
+    
+    // Circunferencia
+    context.save();
+    context.beginPath();
+    context.strokeStyle = "#7a7a7a";
+    context.arc(centro, centro, 50, 0, 2 * PI);
+    context.stroke();
+    context.restore();
+
+    context.save();
+    context.beginPath();
+    context.fillStyle = `rgba(0, 255, 0, 0.5)`;
+    context.moveTo(centro, centro);
+    context.arc(centro, centro, 50, 0, faseInicial, Math.sign(faseInicial));
+    context.lineTo(centro, centro);
+    context.stroke();
+    context.strokeStyle = "rgb(0, 255, 0)";
+    context.fill();
+    context.restore();
+  }
+
   dibujarAmplitudes() {
     const {
       width: anchoCanvas,
@@ -279,22 +318,43 @@ class Canvas {
 
     switch (tipo) {
       case "amplitud_range":
-        if (valor > establecerValoresInput || valor < -establecerValoresInput)
+        if (
+          valor > valoresIniciales.amplitud_max ||
+          valor < -valoresIniciales.amplitud_max
+        ) {
+          const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
+          inputAmplitud.value = valorLimite;
+          this.amplitud = valorLimite;
+          this.limpiarAmplitudes();
+
           return;
+        }
+
         this.amplitud = valor;
         inputAmplitud.value = valor;
         botonIniciar.disabled = false;
         this.limpiarAmplitudes();
         break;
       case "amplitud_input":
-        if (valor > establecerValoresInput || valor < -establecerValoresInput)
+        if (
+          valor > valoresIniciales.amplitud_max ||
+          valor < -valoresIniciales.amplitud_max
+        ) {
+          const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
+          inputAmplitud.value = valorLimite;
+          this.amplitud = valorLimite;
+          this.limpiarAmplitudes();
+
           return;
+        }
+
         this.amplitud = valor;
         rangeAmplitud.value = valor;
         this.limpiarAmplitudes();
         botonIniciar.disabled = false;
         break;
       case "frecuencia_angular":
+        if (valor < 0) return;
         this.frecuenciaAngular = valor;
         break;
       case "fase_inicial":
@@ -343,13 +403,14 @@ class Canvas {
       anchoCanvas / 2 -
       this.dimensionMasa / 2;
 
-    console.warn({ t, x });
+    // console.warn({ t, x });
 
     this.limpiarTrayectoriaMasa();
     this.dibujarMasa();
     this.dibujarResorte();
     this.dibujarPuntoEquilibrio();
     this.dibujarAmplitudes();
+    this.dibujarAnguloFaseInicial();
 
     contextPrincipal.restore();
     requestAnimationFrame(this.actualizarCanvas);
