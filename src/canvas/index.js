@@ -34,6 +34,7 @@ class Canvas {
     this.amplitud = amplitud;
     this.frecuenciaAngular = frecuencia_angular;
     this.faseInicial = fase_inicial;
+    this.unidadesFaseInicial = "grados";
     this.reproduccionEnCurso = reproduccionEnCurso;
     this.t = 0;
     this.limite = PI2;
@@ -84,6 +85,7 @@ class Canvas {
     this.reproduccionEnCurso = false;
 
     document.getElementById("fase_inicial_grados").innerText = 0;
+    botonRadioGrados.checked = true;
 
     establecerValoresInput();
   }
@@ -245,7 +247,25 @@ class Canvas {
     context.beginPath();
     context.fillStyle = `rgba(0, 255, 0, 0.5)`;
     context.moveTo(centro, centro);
-    context.arc(centro, centro, 50, 0, faseInicial, Math.sign(faseInicial));
+    if (Math.sign(faseInicial) === -1) {
+      context.arc(
+        centro,
+        centro,
+        50,
+        0,
+        faseInicial,
+        Math.sign(faseInicial)
+      );
+    } else {
+      context.arc(
+        centro,
+        centro,
+        50,
+        faseInicial,
+        0,
+        Math.sign(faseInicial)
+      );
+    }
     context.lineTo(centro, centro);
     context.stroke();
     // context.strokeStyle = "rgb(0, 255, 0)";
@@ -355,18 +375,25 @@ class Canvas {
   }
 
   actualizarFaseInicial(valor) {
-    if (!valor) return;
-
-    const grados = valor;
+    const { unidadesFaseInicial } = this;
+    let faseInicial = valor;
     const radianes = (-1 * valor * PI) / 180;
 
-    this.faseInicial = radianes;
+    console.warn(unidadesFaseInicial);
 
-    document.getElementById("fase_inicial_grados").innerText = grados;
-    
+    if (!valor) return;
+
+    if (unidadesFaseInicial === "grados") {
+      faseInicial = radianes;
+    }
+
+    this.faseInicial = faseInicial;
+
+    document.getElementById("fase_inicial_grados").innerText = valor;
+
     document.getElementById("fase_inicial_radianes").innerText = String(
       parseFloat(radianes.toFixed(2)) * Math.sign(radianes)
-    ).replace(".", ",");
+    );
   }
 
   controlarSimulacion(evento) {
@@ -387,6 +414,9 @@ class Canvas {
         break;
       case "fase_inicial":
         this.actualizarFaseInicial(valor);
+        break;
+      case "unidades_fase_inicial":
+        this.unidadesFaseInicial = valor;
         break;
       case "iniciar":
         rangeAmplitud.disabled = true;

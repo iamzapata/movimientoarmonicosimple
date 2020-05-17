@@ -30,7 +30,7 @@
         <canvas id="canvasprincipal"></canvas>
       </div>
       <section class="Controles section">
-        <div class="container is-fluid is-paddingles">
+        <div class="container is-fluid is-paddingless">
           <div class="columns">
             <div class="column">
               \[x(t)= Asin(\omega t + \phi)\] \[f=\frac {\omega }{2\pi}\]
@@ -117,17 +117,37 @@
                       placeholder="Fase Inicial"
                     />
                   </div>
+                  <div class="UnidadesFaseInicial">
+                    <div class="field">
+                      <input
+                        type="radio"
+                        id="grados"
+                        name="unidades_fase_inicial"
+                        value="grados"
+                      />
+                      <label class='FaseInicialGrados has-text-grey' for="grados">°</label>
+                    </div>
+                    <div class="field">
+                      <input
+                        type="radio"
+                        id="radianes"
+                        name="unidades_fase_inicial"
+                        value="radianes"
+                      />
+                      <label class="has-text-grey" for="radianes">rad</label>
+                    </div>
+                  </div>
                 </div>
                 <div class="Contenedor_ValoresFaseInicial">
                   <canvas id="canvasfaseinicial"></canvas>
                   <div class="valoresFaseInicial">
                     <p>
                       <span id="fase_inicial_grados">0</span>
-                      <span>°</span>
+                      <span class="has-text-grey">°</span>
                     </p>
                     <p>
                       <span id="fase_inicial_radianes">0</span>
-                      <span>rad</span>
+                      <span class="has-text-grey">rad</span>
                     </p>
                   </div>
                 </div>
@@ -160,6 +180,11 @@
                 </button>
               </div>
             </div>
+          </div>
+          <div class="columns Texto-Ayuda">
+            <ul style='list-style:inherit'>
+             <li class="has-text-grey"> Usar <strong>.</strong> en vez de <strong>,</strong> como separador decimal.</li>
+            </p>
           </div>
         </div>
       </section>

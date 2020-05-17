@@ -3,6 +3,7 @@ import {
   inputAmplitud,
   inputFrecuenciaAngular,
   inputFaseInicial,
+  botonRadioGrados,
   botonIniciar,
   botonPausar,
   botonParar,
@@ -23,9 +24,9 @@ const establecerValoresInput = () => {
   inputAmplitud.max = valoresIniciales.amplitud_max;
 
   inputFrecuenciaAngular.value = valoresIniciales.frecuencia_angular;
+  botonRadioGrados.checked = true
 
   inputFaseInicial.value = valoresIniciales.fase_inicial;
-  
 };
 
 establecerValoresInput();
@@ -39,13 +40,12 @@ establecerValoresInput();
 // {value: "206", name: "amplitud_range"}
 // {value: "2", name: "amplitud_input"}
 
-
 /**
- * 
+ *
  * @parametro evento: Contiene un nombre y un valor.
- * 
+ *
  * Typos de Eventos:
- * 
+ *
  */
 const despacharEvento = (evento) => {
   const { name, value } = evento.currentTarget;
@@ -74,6 +74,22 @@ inputFrecuenciaAngular.removeEventListener(
   inputFrecuenciaAngular.oninput
 );
 inputFrecuenciaAngular.oninput = (evento) => despacharEvento(evento);
+
+// Evento Input Radio - Unidades Frecuencia Angular
+document.addEventListener("input", (evento) => {
+  if (evento.target.getAttribute("name") == "unidades_fase_inicial") {
+    const { name, value } = evento.target;
+
+    const nuevoEvento = new CustomEvent("controlarCanvas", {
+      detail: {
+        tipo: name,
+        valor: value,
+      },
+    });
+
+    canvas.dispatchEvent(nuevoEvento);
+  }
+});
 
 // Evento Input - Fase Inicial
 inputFaseInicial.removeEventListener("input", inputFaseInicial.oninput);

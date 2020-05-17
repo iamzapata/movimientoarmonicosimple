@@ -6,17 +6,21 @@ const inputFrecuenciaAngular = document.getElementsByName('frecuencia_angular')[
 
 const inputFaseInicial = document.getElementsByName('fase_inicial')[0]
 
+const botonRadioGrados = document.getElementById('grados')
+
 const botonIniciar = document.getElementsByName('iniciar')[0]
 
 const botonPausar = document.getElementsByName('pausar')[0]
 
 const botonParar = document.getElementsByName('parar')[0]
 
+
 export {
   rangeAmplitud,
   inputAmplitud, 
   inputFrecuenciaAngular,
   inputFaseInicial,
+  botonRadioGrados,
   botonIniciar,
   botonPausar,
   botonParar
