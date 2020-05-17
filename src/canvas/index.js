@@ -39,7 +39,7 @@ class Canvas {
     this.reproduccionEnCurso = reproduccionEnCurso;
     this.t = 0;
     this.limite = PI2;
-    this.delta = 0.1;
+    this.delta = 0.02; // Increments de 0.02 equivalen aproximadamente a un segundo
     this.dimensionMasa = 100;
 
     autoBind(this);
@@ -406,7 +406,7 @@ class Canvas {
         break;
       case "unidades_fase_inicial":
         this.unidadesFaseInicial = evento.detail.valor;
-        this.actualizarFaseInicial(inputFaseInicial.value)
+        this.actualizarFaseInicial(inputFaseInicial.value);
         break;
       case "iniciar":
         rangeAmplitud.disabled = true;
@@ -431,34 +431,46 @@ class Canvas {
   }
 
   actualizarValoresCalculados() {
-    const frecuencia =  (this.frecuenciaAngular / 2 * PI).toFixed(2)
-    const periodo = (1 / Number(frecuencia)).toFixed(2)
+    const { t, frecuenciaAngular, faseInicial, amplitud } = this;
 
-    document.getElementById('frecuencia_oscilacion').innerText =frecuencia 
-    document.getElementById('periodo_oscilacion').innerText =periodo 
+    const frecuencia = ((frecuenciaAngular / 2) * PI)
+    const periodo = 1 / frecuencia
+    const posicion = amplitud * Math.cos(frecuenciaAngular * t + faseInicial)
+    const velocidad = -amplitud * Math.sin(frecuenciaAngular * t + faseInicial)
+    const aceleracion = -(Math.pow(this.frecuenciaAngular, 2)) * posicion
 
+    document.getElementById("frecuencia_oscilacion").innerText = frecuencia.toFixed(2)
+    document.getElementById("periodo_oscilacion").innerText = periodo.toFixed(2)
+
+    document.getElementById('tiempo_oscilacion').innerText = this.t.toFixed(2)
+    document.getElementById("posicion_oscilacion").innerText = posicion.toFixed(2)
+    document.getElementById("velocidad_oscilacion").innerText = velocidad.toFixed(2)
+    document.getElementById("aceleracion_oscilacion").innerText = aceleracion.toFixed(2)
+
+
+  }
+
+  calcularPosicion() {
+    const { width: anchoCanvas } = this;
+    const { t, amplitud, frecuenciaAngular, faseInicial } = this;
+
+    return (
+      amplitud * Math.cos(frecuenciaAngular * t + faseInicial) +
+      anchoCanvas / 2 -
+      this.dimensionMasa / 2
+    );
   }
 
   actualizarCanvas() {
     const { width: anchoCanvas, height: altoCanvas, contextPrincipal } = this;
-    const {
-      x,
-      t,
-      amplitud,
-      frecuenciaAngular,
-      reproduccionEnCurso,
-      faseInicial,
-    } = this;
+    const { t, reproduccionEnCurso } = this;
 
     const tiempoActual = t;
 
     this.dibujarPared(contextPrincipal, altoCanvas);
     this.dibujarPiso(contextPrincipal, altoCanvas, anchoCanvas);
 
-    this.x =
-      amplitud * Math.cos(frecuenciaAngular * t + faseInicial) +
-      anchoCanvas / 2 -
-      this.dimensionMasa / 2;
+    this.x = this.calcularPosicion();
 
     this.limpiarTrayectoriaMasa();
     this.dibujarMasa();
@@ -466,7 +478,7 @@ class Canvas {
     this.dibujarPuntoEquilibrio();
     this.dibujarAmplitudes();
     this.dibujarAnguloFaseInicial();
-    this.actualizarValoresCalculados()
+    this.actualizarValoresCalculados();
 
     contextPrincipal.restore();
     requestAnimationFrame(this.actualizarCanvas);

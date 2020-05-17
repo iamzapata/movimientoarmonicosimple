@@ -98,12 +98,13 @@ body {
   justify-content: flex-end;
 }
 
-.Frecuencia .MathJax,
-.Periodo .MathJax {
+.FrecuenciaPeriodo .MathJax,
+.TiempoPosicionVelocidadAceleracion .MathJax  {
   display: inline !important;
 }
 
-#frecuencia_oscilacion {
+#frecuencia_oscilacion,
+#periodo_oscilacion {
   min-width: 50px;
   display: inline-block;
 }
