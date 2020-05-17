@@ -430,6 +430,15 @@ class Canvas {
     }
   }
 
+  actualizarValoresCalculados() {
+    const frecuencia =  (this.frecuenciaAngular / 2 * PI).toFixed(2)
+    const periodo = (1 / Number(frecuencia)).toFixed(2)
+
+    document.getElementById('frecuencia_oscilacion').innerText =frecuencia 
+    document.getElementById('periodo_oscilacion').innerText =periodo 
+
+  }
+
   actualizarCanvas() {
     const { width: anchoCanvas, height: altoCanvas, contextPrincipal } = this;
     const {
@@ -450,13 +459,14 @@ class Canvas {
       amplitud * Math.cos(frecuenciaAngular * t + faseInicial) +
       anchoCanvas / 2 -
       this.dimensionMasa / 2;
-      
+
     this.limpiarTrayectoriaMasa();
     this.dibujarMasa();
     this.dibujarResorte();
     this.dibujarPuntoEquilibrio();
     this.dibujarAmplitudes();
     this.dibujarAnguloFaseInicial();
+    this.actualizarValoresCalculados()
 
     contextPrincipal.restore();
     requestAnimationFrame(this.actualizarCanvas);

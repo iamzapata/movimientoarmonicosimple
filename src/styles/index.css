@@ -97,3 +97,14 @@ body {
   margin-top: 50px;
   justify-content: flex-end;
 }
+
+.Frecuencia .MathJax,
+.Periodo .MathJax {
+  display: inline !important;
+}
+
+#frecuencia_oscilacion {
+  min-width: 50px;
+  display: inline-block;
+}
+
