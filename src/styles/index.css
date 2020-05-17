@@ -29,11 +29,6 @@ body {
   background-color: transparent;
 }
 
-#canvasfaseinicial {
-  margin-top: 5px;
-  border: solid 1px #dbdbdb;
-}
-
 .column.iniciar-parar {
   display: flex;
   align-items: center;
@@ -63,4 +58,21 @@ body {
 
 .MathJax {
   display: flex !important;
+}
+
+.Contenedor_ValoresFaseInicial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#canvasfaseinicial {
+  margin-top: 5px;
+  border: solid 1px #dbdbdb;
+}
+
+.valoresFaseInicial {
+  margin-top: 5px;
+  height: 70px;
+  margin-left: 50px;
 }

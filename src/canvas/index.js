@@ -83,6 +83,8 @@ class Canvas {
 
     this.reproduccionEnCurso = false;
 
+    document.getElementById("fase_inicial_grados").innerText = 0;
+
     establecerValoresInput();
   }
 
@@ -213,21 +215,24 @@ class Canvas {
   }
 
   dibujarAnguloFaseInicial() {
-    const { canvasFaseInicial: canvas, contextFaseInicial: context, faseInicial } = this;
+    const {
+      canvasFaseInicial: canvas,
+      contextFaseInicial: context,
+      faseInicial,
+    } = this;
     const dpr = window.devicePixelRatio;
-    const dimension = 70
+    const dimension = 70;
 
     canvas.width = dimension * dpr;
     canvas.height = dimension * dpr;
 
     const { width, height } = canvas;
 
-    const centro = width / 2
-
+    const centro = width / 2;
 
     canvas.style.width = `${width / dpr}px`;
     canvas.style.height = `${height / dpr}px`;
-    
+
     // Circunferencia
     context.save();
     context.beginPath();
@@ -243,7 +248,7 @@ class Canvas {
     context.arc(centro, centro, 50, 0, faseInicial, Math.sign(faseInicial));
     context.lineTo(centro, centro);
     context.stroke();
-    context.strokeStyle = "rgb(0, 255, 0)";
+    // context.strokeStyle = "rgb(0, 255, 0)";
     context.fill();
     context.restore();
   }
@@ -311,6 +316,59 @@ class Canvas {
     context.restore();
   }
 
+  actualizarAmplitudRange(valor) {
+    if (
+      valor > valoresIniciales.amplitud_max ||
+      valor < -valoresIniciales.amplitud_max
+    ) {
+      const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
+      inputAmplitud.value = valorLimite;
+      this.amplitud = valorLimite;
+      this.limpiarAmplitudes();
+
+      return;
+    }
+
+    this.amplitud = valor;
+    inputAmplitud.value = valor;
+    botonIniciar.disabled = false;
+    this.limpiarAmplitudes();
+  }
+
+  actualizarAmplitudInput(valor) {
+    if (
+      valor > valoresIniciales.amplitud_max ||
+      valor < -valoresIniciales.amplitud_max
+    ) {
+      const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
+      inputAmplitud.value = valorLimite;
+      this.amplitud = valorLimite;
+      this.limpiarAmplitudes();
+
+      return;
+    }
+
+    this.amplitud = valor;
+    rangeAmplitud.value = valor;
+    this.limpiarAmplitudes();
+    botonIniciar.disabled = false;
+  }
+
+  actualizarFaseInicial(valor) {
+    if (!valor) return;
+
+    const grados = valor;
+    const radianes = (-1 * valor * PI) / 180;
+
+    this.faseInicial = radianes;
+
+    document.getElementById("fase_inicial_grados").innerText = grados;
+    
+    document.getElementById("fase_inicial_radianes").innerText = String(
+      parseFloat(radianes.toFixed(2)) * Math.sign(radianes)
+    ).replace(".", ",");
+  }
+
   controlarSimulacion(evento) {
     let { tipo, valor } = evento.detail;
 
@@ -318,47 +376,17 @@ class Canvas {
 
     switch (tipo) {
       case "amplitud_range":
-        if (
-          valor > valoresIniciales.amplitud_max ||
-          valor < -valoresIniciales.amplitud_max
-        ) {
-          const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
-          inputAmplitud.value = valorLimite;
-          this.amplitud = valorLimite;
-          this.limpiarAmplitudes();
-
-          return;
-        }
-
-        this.amplitud = valor;
-        inputAmplitud.value = valor;
-        botonIniciar.disabled = false;
-        this.limpiarAmplitudes();
+        this.actualizarAmplitudRange(valor);
         break;
       case "amplitud_input":
-        if (
-          valor > valoresIniciales.amplitud_max ||
-          valor < -valoresIniciales.amplitud_max
-        ) {
-          const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
-          inputAmplitud.value = valorLimite;
-          this.amplitud = valorLimite;
-          this.limpiarAmplitudes();
-
-          return;
-        }
-
-        this.amplitud = valor;
-        rangeAmplitud.value = valor;
-        this.limpiarAmplitudes();
-        botonIniciar.disabled = false;
+        this.actualizarAmplitudInput(valor);
         break;
       case "frecuencia_angular":
         if (valor < 0) return;
         this.frecuenciaAngular = valor;
         break;
       case "fase_inicial":
-        this.faseInicial = (-1 * valor * PI) / 180;
+        this.actualizarFaseInicial(valor);
         break;
       case "iniciar":
         rangeAmplitud.disabled = true;

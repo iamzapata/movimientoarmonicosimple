@@ -39,10 +39,11 @@
             <div class="column">
               \[\boldsymbol{A} \text{ es la amplitud del movimiento.} \]
               \[\boldsymbol\omega \text{ es la frecuencia angular.} \]
-              \[\boldsymbol{t} \text{ es el tiempo.}\] 
-              \[\boldsymbol\omega\boldsymbol{t} + \boldsymbol\phi \text{ es la fase de oscilación.}\]
-              \[\boldsymbol\phi \text{ es la fase inicial y describe}\] 
-              \[\text{el estado de osilación en el instante }\boldsymbol{t}\]
+              \[\boldsymbol{t} \text{ es el tiempo.}\]
+              \[\boldsymbol\omega\boldsymbol{t} + \boldsymbol\phi \text{ es la
+              fase de oscilación.}\] \[\boldsymbol\phi \text{ es la fase inicial
+              y describe}\] \[\text{el estado de osilación en el instante
+              }\boldsymbol{t}\]
             </div>
             <div class="column">
               \[\boldsymbol{f} \text{ es la frecuencia de oscilación.}\]
@@ -104,7 +105,7 @@
             <div class="column">
               <div class="field is-vertical">
                 <div class="field-label is-normal is-marginless">
-                  <label class="label">Fase Inicial (+/- °)</label>
+                  <label class="label">Fase Inicial</label>
                 </div>
                 <div class="field-body w-100">
                   <div class="field">
@@ -117,8 +118,19 @@
                     />
                   </div>
                 </div>
-                <canvas id='canvasfaseinicial'></canvas>
-
+                <div class="Contenedor_ValoresFaseInicial">
+                  <canvas id="canvasfaseinicial"></canvas>
+                  <div class="valoresFaseInicial">
+                    <p>
+                      <span id="fase_inicial_grados">0</span>
+                      <span>°</span>
+                    </p>
+                    <p>
+                      <span id="fase_inicial_radianes">0</span>
+                      <span>rad</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
