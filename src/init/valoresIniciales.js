@@ -1,6 +1,6 @@
 const valoresIniciales = {
   amplitud: 0,
-  amplitud_max: 800,
+  amplitud_max: 620,
   frecuencia_angular: 1,
   fase_inicial: 0,
   reproduccionEnCurso: false,

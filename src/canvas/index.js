@@ -249,12 +249,7 @@ class Canvas {
       height: altoCanvas,
       contextSecundario: context,
     } = this;
-    context.clearRect(
-      0,
-      0,
-      anchoCanvas,
-      altoCanvas
-    );
+    context.clearRect(0, 0, anchoCanvas, altoCanvas);
   }
 
   dibujarPuntoEquilibrio() {
@@ -288,6 +283,7 @@ class Canvas {
           return;
         this.amplitud = valor;
         inputAmplitud.value = valor;
+        botonIniciar.disabled = false;
         this.limpiarAmplitudes();
         break;
       case "amplitud_input":
@@ -295,6 +291,8 @@ class Canvas {
           return;
         this.amplitud = valor;
         rangeAmplitud.value = valor;
+        this.limpiarAmplitudes();
+        botonIniciar.disabled = false;
         break;
       case "frecuencia_angular":
         this.frecuenciaAngular = valor;
@@ -341,11 +339,11 @@ class Canvas {
     this.dibujarPiso(contextPrincipal, altoCanvas, anchoCanvas);
 
     this.x =
-      amplitud * Math.cos((frecuenciaAngular *t) + faseInicial) +
+      amplitud * Math.cos(frecuenciaAngular * t + faseInicial) +
       anchoCanvas / 2 -
       this.dimensionMasa / 2;
 
-      console.warn({t, x})
+    console.warn({ t, x });
 
     this.limpiarTrayectoriaMasa();
     this.dibujarMasa();

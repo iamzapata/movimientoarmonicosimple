@@ -60,27 +60,34 @@ const despacharEvento = (evento) => {
   canvas.dispatchEvent(nuevoEvento);
 };
 
-rangeAmplitud.removeEventListener("onChange", rangeAmplitud.onchange);
-rangeAmplitud.onchange = (evento) => despacharEvento(evento);
+// Evento Input - Amplitud Slider
+rangeAmplitud.removeEventListener("input", rangeAmplitud.oninput);
+rangeAmplitud.oninput = (evento) => despacharEvento(evento);
 
-inputAmplitud.removeEventListener("onChange", inputAmplitud.onchange);
-inputAmplitud.onchange = (evento) => despacharEvento(evento);
+// Evento Input - Amplitud Númerica
+inputAmplitud.removeEventListener("input", inputAmplitud.oninput);
+inputAmplitud.oninput = (evento) => despacharEvento(evento);
 
+// Evento Input - Frecuencia Angular Númeria
 inputFrecuenciaAngular.removeEventListener(
-  "onChange",
-  inputFrecuenciaAngular.onchange
+  "input",
+  inputFrecuenciaAngular.oninput
 );
-inputFrecuenciaAngular.onchange = (evento) => despacharEvento(evento);
+inputFrecuenciaAngular.oninput = (evento) => despacharEvento(evento);
 
-inputFaseInicial.removeEventListener("onChange", inputFaseInicial.onchange);
-inputFaseInicial.onchange = (evento) => despacharEvento(evento);
+// Evento Input - Fase Inicial
+inputFaseInicial.removeEventListener("input", inputFaseInicial.oninput);
+inputFaseInicial.oninput = (evento) => despacharEvento(evento);
 
+// Evento Click - Inciar
 botonIniciar.removeEventListener("onClick", botonIniciar.onclick);
 botonIniciar.onclick = (evento) => despacharEvento(evento);
 
+// Evento Click - Pausar
 botonPausar.removeEventListener("onClick", botonPausar.onclick);
 botonPausar.onclick = (evento) => despacharEvento(evento);
 
+// Event Click - Parar
 document.removeEventListener("onClick", botonParar.onclick);
 botonParar.onclick = (evento) => despacharEvento(evento);
 
