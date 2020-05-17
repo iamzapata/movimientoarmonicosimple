@@ -78,6 +78,7 @@ inputFrecuenciaAngular.oninput = (evento) => despacharEvento(evento);
 // Evento Input Radio - Unidades Frecuencia Angular
 document.addEventListener("input", (evento) => {
   if (evento.target.getAttribute("name") == "unidades_fase_inicial") {
+    
     const { name, value } = evento.target;
 
     const nuevoEvento = new CustomEvent("controlarCanvas", {

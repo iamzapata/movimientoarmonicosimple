@@ -7,6 +7,7 @@ import {
   botonParar,
   rangeAmplitud,
   inputAmplitud,
+  inputFaseInicial,
 } from "src/controles";
 import { establecerValoresInput } from "src/init";
 
@@ -235,6 +236,8 @@ class Canvas {
     canvas.style.width = `${width / dpr}px`;
     canvas.style.height = `${height / dpr}px`;
 
+    const contrarioAlReloj = Math.sign(faseInicial) === 1;
+
     // Circunferencia
     context.save();
     context.beginPath();
@@ -247,28 +250,16 @@ class Canvas {
     context.beginPath();
     context.fillStyle = `rgba(0, 255, 0, 0.5)`;
     context.moveTo(centro, centro);
-    if (Math.sign(faseInicial) === -1) {
-      context.arc(
-        centro,
-        centro,
-        50,
-        0,
-        faseInicial,
-        Math.sign(faseInicial)
-      );
+
+    if (contrarioAlReloj) {
+      context.arc(centro, centro, 50, 0, -faseInicial, true);
     } else {
-      context.arc(
-        centro,
-        centro,
-        50,
-        faseInicial,
-        0,
-        Math.sign(faseInicial)
-      );
+      context.arc(centro, centro, 50, -faseInicial, 0, true);
     }
+
     context.lineTo(centro, centro);
     context.stroke();
-    // context.strokeStyle = "rgb(0, 255, 0)";
+    context.strokeStyle = "rgb(0, 255, 0)";
     context.fill();
     context.restore();
   }
@@ -377,9 +368,7 @@ class Canvas {
   actualizarFaseInicial(valor) {
     const { unidadesFaseInicial } = this;
     let faseInicial = valor;
-    const radianes = (-1 * valor * PI) / 180;
-
-    console.warn(unidadesFaseInicial);
+    const radianes = (valor * PI) / 180;
 
     if (!valor) return;
 
@@ -416,7 +405,8 @@ class Canvas {
         this.actualizarFaseInicial(valor);
         break;
       case "unidades_fase_inicial":
-        this.unidadesFaseInicial = valor;
+        this.unidadesFaseInicial = evento.detail.valor;
+        this.actualizarFaseInicial(inputFaseInicial.value)
         break;
       case "iniciar":
         rangeAmplitud.disabled = true;
@@ -460,9 +450,7 @@ class Canvas {
       amplitud * Math.cos(frecuenciaAngular * t + faseInicial) +
       anchoCanvas / 2 -
       this.dimensionMasa / 2;
-
-    // console.warn({ t, x });
-
+      
     this.limpiarTrayectoriaMasa();
     this.dibujarMasa();
     this.dibujarResorte();
