@@ -291,7 +291,7 @@ class Canvas {
 
   dibujarPuntoEquilibrio() {
     const { width: anchoCanvas, height: altoCanvas, contextSecundario: context } = this;
-    const margen = 100;
+    const margen = 50;
 
     context.save();
     context.lineWidth = 1;
@@ -300,7 +300,7 @@ class Canvas {
     context.beginPath();
     context.setLineDash([10, 10]);
     context.moveTo(anchoCanvas / 2, 0 + margen);
-    context.lineTo(anchoCanvas / 2, altoCanvas - margen);
+    context.lineTo(anchoCanvas / 2, altoCanvas - margen * 2);
     context.stroke();
     context.restore();
   }
@@ -337,7 +337,7 @@ class Canvas {
     botonIniciar.disabled = false;
   }
 
-  actualizarFaseInicial(valor) {
+  actualizarFaseInicial(valor) {dibu
     const { unidadesFaseInicial } = this;
     let faseInicial = valor;
     const radianes = (valor * PI) / 180;
