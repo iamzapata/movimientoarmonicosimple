@@ -53,7 +53,7 @@ class Canvas {
     const dpr = window.devicePixelRatio;
 
     canvas.width = 1000 * dpr;
-    canvas.height = 500 * dpr;
+    canvas.height = 300 * dpr;
 
     const { width, height } = canvas;
 

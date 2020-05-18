@@ -4,24 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movimiento Armónico Simple</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    />
-    <script
-      defer
-      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-    ></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    ></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   </head>
   <body>
     <div id="app">
@@ -34,8 +21,7 @@
             <span class="tooltiptext">
               <ul class="Texto-Ayuda-UL">
                 <li class="has-text-grey has-text-weight-light">
-                  Usar <strong>.</strong> en vez de <strong>,</strong> como
-                  separador decimal.
+                  Usar <strong>.</strong> en vez de <strong>,</strong> como separador decimal.
                 </li>
                 <li class="has-text-grey has-text-weight-light">
                   El peso de la masa es de
@@ -52,18 +38,16 @@
           </div>
         </div>
       </div>
-      <section class="Controles section">
+      <section class="section">
         <div class="container is-fluid is-paddingless">
           <div class="columns VelocidadAnimacion">
             <div class="column">
-              <span id='velocida_animacion' class="is-size-7 has-text-weight-semibold">1</span>
+              <span id="velocida_animacion" class="is-size-7 has-text-weight-semibold">1</span>
               <span class="is-size-7 has-text-weight-semibold">x</span>
             </div>
             <div class="column">
               <button name="mas_lento" type="button" class="button">
-                <span class="icon is-small"
-                  ><i class="fa fa-fast-backward"></i
-                ></span>
+                <span class="icon is-small"><i class="fa fa-fast-backward"></i></span>
               </button>
               <input
                 type="range"
@@ -75,33 +59,37 @@
                 step="0.25"
               />
               <button name="mas_rapido" type="button" class="button">
-                <span class="icon is-small"
-                  ><i class="fa fa-fast-forward"></i
-                ></span>
+                <span class="icon is-small"><i class="fa fa-fast-forward"></i></span>
               </button>
             </div>
           </div>
-          <div class="columns">
+          <div class="columns Formulas">
             <div class="column">
-              \[x(t)= Asin(\omega t + \phi)\] 
-              \[\boldsymbol{f}=\frac {\omega }{2\pi}\]
-              \[\boldsymbol{T}=\frac {1}{f}=\frac {2\pi}{\omega}\]
-              \[\boldsymbol{E_{p}}={\frac {1}{2}}kx^{2}\]
-              \[{\boldsymbol{ E_{c}}={\frac {1}{2}}m\,v^{2}}\]
-              \[\boldsymbol{E_{m}}=E_{p}+E_{c}\]
+              \[x(t)= Asin(\omega t + \phi)\]
+              <div class="columns">
+                <div class="column">
+                  \[\boldsymbol{f}=\frac {\omega }{2\pi}\]
+                </div>
+                <div class="column">
+                  \[\boldsymbol{T}=\frac{1}{f}=\frac {2\pi}{\omega}\]
+                </div>
+              </div>
+              <div class="columns">
+                <div class="column">
+                  \[\boldsymbol{E_{p}}={\frac {1}{2}}kx^{2}\] \[{\boldsymbol{ E_{c}}={\frac {1}{2}}m\,v^{2}}\]
+                </div>
+                <div class="column">\[\boldsymbol{E_{m}}=E_{p}+E_{c}\]</div>
+              </div>
             </div>
             <div class="column">
-              \[\boldsymbol{A} \text{ es la amplitud del movimiento.} \]
-              \[\boldsymbol\omega \text{ es la frecuencia angular.} \]
-              \[\boldsymbol{t} \text{ es el tiempo.}\]
-              \[\boldsymbol\omega\boldsymbol{t} + \boldsymbol\phi \text{ es la
-              fase de oscilación.}\] \[\boldsymbol\phi \text{ es la fase inicial
-              y describe}\] \[\text{el estado de osilación en el instante
-              }\boldsymbol{t}\]
+              \[\boldsymbol{A} \text{ es la amplitud del movimiento.} \] \[\boldsymbol\omega \text{ es la frecuencia
+              angular.} \] \[\boldsymbol{t} \text{ es el tiempo.}\] \[\boldsymbol\omega\boldsymbol{t} + \boldsymbol\phi
+              \text{ es la fase de oscilación.}\] \[\boldsymbol\phi \text{ es la fase inicial y describe}\] \[\text{el
+              estado de osilación en el instante }\boldsymbol{t}\]
             </div>
             <div class="column">
-              \[\boldsymbol{f} \text{ es la frecuencia de oscilación.}\]
-              \[\boldsymbol{T} \text{ es el período de oscilación}.\]
+              \[\boldsymbol{f} \text{ es la frecuencia de oscilación.}\] \[\boldsymbol{T} \text{ es el período de
+              oscilación}.\]
             </div>
           </div>
           <div class="columns">
@@ -154,141 +142,123 @@
                 \[E_p=\]
                 <span class="has-text-grey" id="energia_potencial">0</span>
                 \[J\]
-              </p>  
+              </p>
             </div>
           </div>
-          <div class="columns">
-            <div class="column">
-              <div class="field is-vertical">
-                <div class="field-label is-normal is-marginless">
-                  <label class="label">Amplitud</label>
-                </div>
-                <div class="field-body w-100">
-                  <div class="field">
-                    <input
-                      id="amplitud_input"
-                      class="input"
-                      type="number"
-                      name="amplitud_input"
-                      placeholder="Amplitud"
-                    />
+          <div class="box">
+            <div class="columns">
+              <div class="column">
+                <div class="field is-vertical">
+                  <div class="field-label is-normal is-marginless">
+                    <label class="label">Amplitud</label>
                   </div>
-                </div>
-                <div class="field-body w-100">
-                  <div class="field">
-                    <input
-                      class="w-100"
-                      id="amplitud_range"
-                      name="amplitud_range"
-                      placeholder="Desplazamiento Inicial"
-                      type="range"
-                      min="-100"
-                      max="100"
-                      value="0"
-                      class="slider"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column">
-              <div class="field is-vertical">
-                <div class="field-label is-normal is-marginless">
-                  <label class="label">Frequencia Angular</label>
-                </div>
-                <div class="field-body w-100">
-                  <div class="field">
-                    <input
-                      id="frecuencia_angular"
-                      class="input"
-                      type="number"
-                      name="frecuencia_angular"
-                      placeholder="Frecuencia Angular"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column">
-              <div class="field is-vertical">
-                <div class="field-label is-normal is-marginless">
-                  <label class="label">Fase Inicial</label>
-                </div>
-                <div class="field-body w-100">
-                  <div class="field">
-                    <input
-                      id="fase_inicial"
-                      class="input"
-                      type="number"
-                      name="fase_inicial"
-                      placeholder="Fase Inicial"
-                    />
-                  </div>
-                  <div class="UnidadesFaseInicial">
+                  <div class="field-body w-100">
                     <div class="field">
                       <input
-                        type="radio"
-                        id="grados"
-                        name="unidades_fase_inicial"
-                        value="grados"
+                        id="amplitud_input"
+                        class="input"
+                        type="number"
+                        name="amplitud_input"
+                        placeholder="Amplitud"
                       />
-                      <label
-                        class="FaseInicialGrados has-text-grey"
-                        for="grados"
-                        >°</label
-                      >
                     </div>
+                  </div>
+                  <div class="field-body w-100">
                     <div class="field">
                       <input
-                        type="radio"
-                        id="radianes"
-                        name="unidades_fase_inicial"
-                        value="radianes"
+                        class="w-100"
+                        id="amplitud_range"
+                        name="amplitud_range"
+                        placeholder="Desplazamiento Inicial"
+                        type="range"
+                        min="-100"
+                        max="100"
+                        value="0"
+                        class="slider"
                       />
-                      <label class="has-text-grey" for="radianes">rad</label>
                     </div>
                   </div>
                 </div>
-                <div class="Contenedor_ValoresFaseInicial">
-                  <canvas id="canvasfaseinicial"></canvas>
-                  <div class="valoresFaseInicial">
-                    <p>
-                      <span id="fase_inicial_grados">0</span>
-                      <span class="has-text-grey">°</span>
-                    </p>
-                    <p>
-                      <span id="fase_inicial_radianes">0</span>
-                      <span class="has-text-grey">rad</span>
-                    </p>
+              </div>
+              <div class="column">
+                <div class="field is-vertical">
+                  <div class="field-label is-normal is-marginless">
+                    <label class="label">Frequencia Angular</label>
+                  </div>
+                  <div class="field-body w-100">
+                    <div class="field">
+                      <input
+                        id="frecuencia_angular"
+                        class="input"
+                        type="number"
+                        name="frecuencia_angular"
+                        placeholder="Frecuencia Angular"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div class="field is-vertical">
+                  <div class="field-label is-normal is-marginless">
+                    <label class="label">Fase Inicial</label>
+                  </div>
+                  <div class="field-body w-100">
+                    <div class="field">
+                      <input
+                        id="fase_inicial"
+                        class="input"
+                        type="number"
+                        name="fase_inicial"
+                        placeholder="Fase Inicial"
+                      />
+                    </div>
+                    <div class="UnidadesFaseInicial">
+                      <div class="field">
+                        <input type="radio" id="grados" name="unidades_fase_inicial" value="grados" />
+                        <label class="FaseInicialGrados has-text-grey" for="grados">°</label>
+                      </div>
+                      <div class="field">
+                        <input type="radio" id="radianes" name="unidades_fase_inicial" value="radianes" />
+                        <label class="has-text-grey" for="radianes">rad</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="Contenedor_ValoresFaseInicial">
+                    <canvas id="canvasfaseinicial"></canvas>
+                    <div class="valoresFaseInicial">
+                      <p>
+                        <span id="fase_inicial_grados">0</span>
+                        <span class="has-text-grey">°</span>
+                      </p>
+                      <p>
+                        <span id="fase_inicial_radianes">0</span>
+                        <span class="has-text-grey">rad</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="columns">
-            <div class="column iniciar-parar">
-              <div class="control px-1">
-                <button name="parar" type="button" class="button" disabled>
-                  <span class="icon is-small"
-                    ><i class="fa fa-stop-circle"></i
-                  ></span>
-                </button>
-              </div>
+            <div class="columns">
+              <div class="column iniciar-parar">
+                <div class="control px-1">
+                  <button name="parar" type="button" class="button" disabled>
+                    <span class="icon is-small"><i class="fa fa-stop-circle"></i></span>
+                  </button>
+                </div>
 
-              <div class="control">
-                <button name="pausar" type="button" class="button" disabled>
-                  <span class="icon is-small"
-                    ><i class="fa fa-pause-circle"></i
-                  ></span>
-                </button>
-              </div>
+                <div class="control">
+                  <button name="pausar" type="button" class="button" disabled>
+                    <span class="icon is-small"><i class="fa fa-pause-circle"></i></span>
+                  </button>
+                </div>
 
-              <div class="control">
-                <button name="iniciar" type="button" class="button" disabled>
-                  <span class="icon is-small"
-                    ><i class="fa fa-play-circle"></i
-                  ></span>
-                </button>
+                <div class="control">
+                  <button name="iniciar" type="button" class="button" disabled>
+                    <span class="icon is-small"><i class="fa fa-play-circle"></i></span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
