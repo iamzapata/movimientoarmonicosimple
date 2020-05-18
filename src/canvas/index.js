@@ -368,14 +368,14 @@ class Canvas {
         this.actualizarAmplitudRange(valor);
         break;
       case "amplitud_input":
-        this.actualizarAmplitudInput(valor);
+        this.actualizarAmplitudInput(valor ? valor : 0);
         break;
       case "frecuencia_angular":
         if (valor < 0) {
           inputFrecuenciaAngular.value = 0;
           return;
         }
-        this.frecuenciaAngular = valor;
+        this.frecuenciaAngular = valor ? valor : 0;
         break;
       case "fase_inicial":
         this.actualizarFaseInicial(valor);
