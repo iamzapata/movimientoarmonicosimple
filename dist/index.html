@@ -12,6 +12,7 @@
   </head>
   <body>
     <div id="app">
+      <h4 class="title is-4">Movimiento Armónico Simple</h4>
       <div id="ventanagrafica">
         <canvas id="canvassecundario"></canvas>
         <canvas id="canvasprincipal"></canvas>
@@ -224,12 +225,16 @@
                     </div>
                     <div class="UnidadesFaseInicial">
                       <div class="field">
-                        <input type="radio" id="grados" name="unidades_fase_inicial" value="grados" />
-                        <label class="FaseInicialGrados has-text-grey" for="grados">°</label>
+                        <label class="FaseInicialGrados has-text-grey radio" for="grados">                        
+                          <input type="radio" id="grados" name="unidades_fase_inicial" value="grados" />
+                          °
+                        </label>
                       </div>
                       <div class="field">
-                        <input type="radio" id="radianes" name="unidades_fase_inicial" value="radianes" />
-                        <label class="has-text-grey" for="radianes">rad</label>
+                        <label class="has-text-grey radio" for="radianes">
+                          <input type="radio" id="radianes" name="unidades_fase_inicial" value="radianes" />
+                          rad
+                        </label>
                       </div>
                     </div>
                   </div>

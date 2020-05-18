@@ -339,7 +339,6 @@ class Canvas {
   }
 
   actualizarFaseInicial(valor) {
-    dibu;
     const { unidadesFaseInicial } = this;
     let faseInicial = valor;
     const radianes = (valor * PI) / 180;
