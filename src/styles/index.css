@@ -168,3 +168,7 @@ body {
   font-size: 0.5rem;
   margin: 0 1rem;
 }
+
+hr {
+  height: 1px;
+}
