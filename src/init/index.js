@@ -3,9 +3,13 @@ import {
   inputAmplitud,
   inputFrecuenciaAngular,
   inputFaseInicial,
-  playButton,
-  pauseButton,
-  stopButton,
+  botonRadioGrados,
+  botonIniciar,
+  botonPausar,
+  botonParar,
+  inputVelocidadAnimacion,
+  botonIncrementarRapidez,
+  botonReducirRapidez,
 } from "src/controles";
 
 // Canvas principal donde se dibuja el bloque y resorte.
@@ -23,31 +27,33 @@ const establecerValoresInput = () => {
   inputAmplitud.max = valoresIniciales.amplitud_max;
 
   inputFrecuenciaAngular.value = valoresIniciales.frecuencia_angular;
+  botonRadioGrados.checked = true;
 
   inputFaseInicial.value = valoresIniciales.fase_inicial;
-  
+
+  inputVelocidadAnimacion.value = 1;
 };
 
 establecerValoresInput();
 
-// {value: "87", name: "desplazamiento_inicial"}
-// index.js:37 {value: "2", name: "frecuencia_angular"}
-// index.js:37 {value: "1", name: "fase_inicial"}
-// index.js:37 {value: "", name: "play"}
+// {value: "", name: "parar"}
 // {value: "", name: "pause"}
-// index.js:37 {value: "", name: "pause"}
-
+// {value: "", name: "play"}
+// {value: "0", name: "fase_inicial"}
+// {value: "1", name: "fase_inicial"}
+// {value: "0", name: "frecuencia_angular"}
+// {value: "206", name: "amplitud_range"}
+// {value: "2", name: "amplitud_input"}
 
 /**
- * 
- * @parametro evento
- * 
- * Cada 
+ *
+ * @parametro evento: Contiene un nombre y un valor.
+ *
+ * Typos de Eventos:
+ *
  */
 const despacharEvento = (evento) => {
-  const { value, name } = evento.currentTarget;
-
-  console.warn({value, name})
+  const { name, value } = evento.currentTarget;
 
   const nuevoEvento = new CustomEvent("controlarCanvas", {
     detail: {
@@ -59,28 +65,69 @@ const despacharEvento = (evento) => {
   canvas.dispatchEvent(nuevoEvento);
 };
 
-rangeAmplitud.removeEventListener("onChange", rangeAmplitud.onchange);
-rangeAmplitud.onchange = (evento) => despacharEvento(evento);
+// Evento Input - Amplitud Slider
+rangeAmplitud.removeEventListener("input", rangeAmplitud.oninput);
+rangeAmplitud.oninput = (evento) => despacharEvento(evento);
 
-inputAmplitud.removeEventListener("onChange", inputAmplitud.onchange);
-inputAmplitud.onchange = (evento) => despacharEvento(evento);
+// Evento Input - Amplitud Númerica
+inputAmplitud.removeEventListener("input", inputAmplitud.oninput);
+inputAmplitud.oninput = (evento) => despacharEvento(evento);
 
+// Evento Input - Frecuencia Angular Númeria
 inputFrecuenciaAngular.removeEventListener(
-  "onChange",
-  inputFrecuenciaAngular.onchange
+  "input",
+  inputFrecuenciaAngular.oninput
 );
-inputFrecuenciaAngular.onchange = (evento) => despacharEvento(evento);
+inputFrecuenciaAngular.oninput = (evento) => despacharEvento(evento);
 
-inputFaseInicial.removeEventListener("onChange", inputFaseInicial.onchange);
-inputFaseInicial.onchange = (evento) => despacharEvento(evento);
+// Evento Input Radio - Unidades Frecuencia Angular
+document.addEventListener("input", (evento) => {
+  if (evento.target.getAttribute("name") == "unidades_fase_inicial") {
+    const { name, value } = evento.target;
 
-playButton.removeEventListener("onClick", playButton.onclick);
-playButton.onclick = (evento) => despacharEvento(evento);
+    const nuevoEvento = new CustomEvent("controlarCanvas", {
+      detail: {
+        tipo: name,
+        valor: value,
+      },
+    });
 
-pauseButton.removeEventListener("onClick", pauseButton.onclick);
-pauseButton.onclick = (evento) => despacharEvento(evento);
+    canvas.dispatchEvent(nuevoEvento);
+  }
+});
 
-document.removeEventListener("onClick", stopButton.onclick);
-stopButton.onclick = (evento) => despacharEvento(evento);
+// Evento Input - Fase Inicial
+inputFaseInicial.removeEventListener("input", inputFaseInicial.oninput);
+inputFaseInicial.oninput = (evento) => despacharEvento(evento);
+
+// Evento Click - Inciar
+botonIniciar.removeEventListener("onClick", botonIniciar.onclick);
+botonIniciar.onclick = (evento) => despacharEvento(evento);
+
+// Evento Click - Pausar
+botonPausar.removeEventListener("onClick", botonPausar.onclick);
+botonPausar.onclick = (evento) => despacharEvento(evento);
+
+// Event Click - Parar
+document.removeEventListener("onClick", botonParar.onclick);
+botonParar.onclick = (evento) => despacharEvento(evento);
+
+// Evento Input - Velocidad Animacion
+inputVelocidadAnimacion.removeEventListener(
+  "input",
+  inputVelocidadAnimacion.oninput
+);
+inputVelocidadAnimacion.oninput = (evento) => despacharEvento(evento);
+
+// Evento Click - Mas Lento
+botonIncrementarRapidez.removeEventListener(
+  "onClick",
+  botonIncrementarRapidez.onclick
+);
+botonIncrementarRapidez.onclick = (evento) => despacharEvento(evento);
+
+// Evento Click - Mas Rapido
+botonReducirRapidez.removeEventListener("onClick", botonReducirRapidez.onclick);
+botonReducirRapidez.onclick = (evento) => despacharEvento(evento);
 
 export { establecerValoresInput };
