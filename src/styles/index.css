@@ -111,8 +111,8 @@ body {
 
 .Texto-Ayuda {
   position: absolute;
-    right: 20px;
-  bottom: 20px;
+  right: 20px;
+  bottom: 0;
 }
 
 .Texto-Ayuda .MathJax {
@@ -123,6 +123,26 @@ body {
   list-style: inherit;
   margin: initial;
   padding-left: 30px !important;
+}
+
+.VelocidadAnimacion {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.VelocidadAnimacion .column {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.columns.VelocidadAnimacion button {
+  font-size: 0.5rem;
+  margin: 0 1rem;
 }
 
 /* Tooltip contenedor */
@@ -151,22 +171,6 @@ body {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
-}
-
-.VelocidadAnimacion {
-  display: flex;
-  flex-direction: column;
-}
-
-.VelocidadAnimacion .column {
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.columns.VelocidadAnimacion button {
-  font-size: 0.5rem;
-  margin: 0 1rem;
 }
 
 hr {

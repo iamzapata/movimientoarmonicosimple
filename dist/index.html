@@ -37,32 +37,32 @@
             </span>
           </div>
         </div>
+        <div class="columns VelocidadAnimacion">
+          <div class="column">
+            <span id="velocida_animacion" class="is-size-7 has-text-weight-semibold">1</span>
+            <span class="is-size-7 has-text-weight-semibold">x</span>
+          </div>
+          <div class="column">
+            <button name="mas_lento" type="button" class="button">
+              <span class="icon is-small"><i class="fa fa-fast-backward"></i></span>
+            </button>
+            <input
+              type="range"
+              id="velocidad_animacion_range"
+              name="velocidad_animacion"
+              min="0.25"
+              value="1.25"
+              max="2.25"
+              step="0.25"
+            />
+            <button name="mas_rapido" type="button" class="button">
+              <span class="icon is-small"><i class="fa fa-fast-forward"></i></span>
+            </button>
+          </div>
+        </div>
       </div>
       <section class="section">
         <div class="container is-fluid is-paddingless">
-          <div class="columns VelocidadAnimacion">
-            <div class="column">
-              <span id="velocida_animacion" class="is-size-7 has-text-weight-semibold">1</span>
-              <span class="is-size-7 has-text-weight-semibold">x</span>
-            </div>
-            <div class="column">
-              <button name="mas_lento" type="button" class="button">
-                <span class="icon is-small"><i class="fa fa-fast-backward"></i></span>
-              </button>
-              <input
-                type="range"
-                id="velocidad_animacion_range"
-                name="velocidad_animacion"
-                min="0.25"
-                value="1.25"
-                max="2.25"
-                step="0.25"
-              />
-              <button name="mas_rapido" type="button" class="button">
-                <span class="icon is-small"><i class="fa fa-fast-forward"></i></span>
-              </button>
-            </div>
-          </div>
           <div class="columns Formulas">
             <div class="column">
               \[x(t)= Asin(\omega t + \phi)\]
