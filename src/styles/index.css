@@ -51,6 +51,10 @@ body {
   width: 100%;
 }
 
+.d-inline {
+  display: inline !important;
+}
+
 .field.is-vertical {
   display: flex;
   flex-direction: column;
@@ -175,4 +179,8 @@ body {
 
 hr {
   height: 1px;
+}
+
+.progress {
+  border-radius: 0 !important;
 }

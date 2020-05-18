@@ -431,9 +431,10 @@ class Canvas {
     const aceleracion = -Math.pow(this.frecuenciaAngular, 2) * posicion;
 
     const energiaCinetica = 0.5 * masa * Math.pow(velocidad, 2)
+    const energiaCineticaMax = 0.5 * masa * Math.pow(frecuenciaAngular, 2) * Math.pow(amplitud, 2)
     const energiaPotencial = 0.5 * K * Math.pow(posicion, 2);
+    const energiaPotencialMax = 0.5 * K * Math.pow(amplitud, 2)
     const energiaMecanica = energiaCinetica + energiaPotencial
-
 
     document.getElementById("frecuencia_oscilacion").innerText = frecuencia.toFixed(2);
     document.getElementById("periodo_oscilacion").innerText = periodo.toFixed(2);
@@ -446,6 +447,17 @@ class Canvas {
     document.getElementById('energia_mecanica').innerHTML = energiaMecanica.toFixed(2)
     document.getElementById('energia_cinetica').innerHTML = energiaCinetica.toFixed(2)
     document.getElementById('energia_potencial').innerHTML = energiaPotencial.toFixed(2)
+
+    document.getElementById('energia_mecanica_barra').value = energiaMecanica
+    document.getElementById('energia_mecanica_barra').max = energiaPotencialMax
+
+    document.getElementById('energia_cinetica_barra').value = energiaCinetica
+    document.getElementById('energia_cinetica_barra').max = energiaCineticaMax
+
+    document.getElementById('energia_potencial_barra').value = energiaPotencial
+    document.getElementById('energia_potencial_barra').max = energiaPotencialMax
+
+
   }
 
   calcularPosicion() {
