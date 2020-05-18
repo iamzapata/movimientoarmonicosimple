@@ -1,6 +1,6 @@
 import autoBind from "auto-bind";
 import valoresIniciales from "src/init/valoresIniciales";
-import { PI, PI2, masa, K } from "src/constants";
+import { PI, masa, K } from "src/constants";
 import {
   botonIniciar,
   botonPausar,
@@ -31,12 +31,7 @@ class Canvas {
     this.organizarResolucion(this.canvasPrincipal);
     this.organizarResolucion(this.canvasSecundario);
 
-    const {
-      amplitud,
-      frecuencia_angular,
-      fase_inicial,
-      reproduccionEnCurso,
-    } = valoresIniciales;
+    const { amplitud, frecuencia_angular, fase_inicial, reproduccionEnCurso } = valoresIniciales;
 
     this.amplitud = amplitud;
     this.velocidadAnimacion = 1;
@@ -50,9 +45,7 @@ class Canvas {
 
     autoBind(this);
 
-    this.canvasPrincipal.addEventListener("controlarCanvas", (evento) =>
-      this.controlarSimulacion(evento)
-    );
+    this.canvasPrincipal.addEventListener("controlarCanvas", (evento) => this.controlarSimulacion(evento));
     window.oscilador = this;
   }
 
@@ -72,12 +65,7 @@ class Canvas {
   }
 
   reestablecerValores() {
-    const {
-      amplitud,
-      frecuencia_angular,
-      fase_inicial,
-      reproduccionEnCurso,
-    } = valoresIniciales;
+    const { amplitud, frecuencia_angular, fase_inicial, reproduccionEnCurso } = valoresIniciales;
 
     this.amplitud = amplitud;
     this.frecuenciaAngular = frecuencia_angular;
@@ -197,12 +185,7 @@ class Canvas {
     contextPrincipal.fillStyle = "rgba(255, 0, 0, 1)";
     contextPrincipal.lineWidth = 1;
     contextPrincipal.fillStyle = "rgba(0, 0, 0, 0.3)";
-    contextPrincipal.strokeRect(
-      x,
-      y,
-      this.dimensionBloque,
-      this.dimensionBloque
-    );
+    contextPrincipal.strokeRect(x, y, this.dimensionBloque, this.dimensionBloque);
     contextPrincipal.fillRect(x, y, this.dimensionBloque, this.dimensionBloque);
     contextPrincipal.restore();
   }
@@ -231,11 +214,7 @@ class Canvas {
   }
 
   dibujarAnguloFaseInicial() {
-    const {
-      canvasFaseInicial: canvas,
-      contextFaseInicial: context,
-      faseInicial,
-    } = this;
+    const { canvasFaseInicial: canvas, contextFaseInicial: context, faseInicial } = this;
     const dpr = window.devicePixelRatio;
     const dimension = 70;
 
@@ -278,19 +257,13 @@ class Canvas {
   }
 
   dibujarAmplitudes() {
-    const {
-      width: anchoCanvas,
-      height: altoCanvas,
-      contextSecundario: context,
-    } = this;
+    const { width: anchoCanvas, height: altoCanvas, contextSecundario: context } = this;
 
     if (this.amplitud === 0) return;
 
-    const amplitudMasX =
-      anchoCanvas / 2 + this.amplitud * Math.sign(this.amplitud);
+    const amplitudMasX = anchoCanvas / 2 + this.amplitud * Math.sign(this.amplitud);
 
-    const amplitudMenosX =
-      anchoCanvas / 2 - this.amplitud * Math.sign(this.amplitud);
+    const amplitudMenosX = anchoCanvas / 2 - this.amplitud * Math.sign(this.amplitud);
 
     context.save();
     context.lineWidth = 0.5;
@@ -312,20 +285,12 @@ class Canvas {
   }
 
   limpiarAmplitudes() {
-    const {
-      width: anchoCanvas,
-      height: altoCanvas,
-      contextSecundario: context,
-    } = this;
+    const { width: anchoCanvas, height: altoCanvas, contextSecundario: context } = this;
     context.clearRect(0, 0, anchoCanvas, altoCanvas);
   }
 
   dibujarPuntoEquilibrio() {
-    const {
-      width: anchoCanvas,
-      height: altoCanvas,
-      contextSecundario: context,
-    } = this;
+    const { width: anchoCanvas, height: altoCanvas, contextSecundario: context } = this;
     const margen = 100;
 
     context.save();
@@ -341,10 +306,7 @@ class Canvas {
   }
 
   actualizarAmplitudRange(valor) {
-    if (
-      valor > valoresIniciales.amplitud_max ||
-      valor < -valoresIniciales.amplitud_max
-    ) {
+    if (valor > valoresIniciales.amplitud_max || valor < -valoresIniciales.amplitud_max) {
       const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
       inputAmplitud.value = valorLimite;
       this.amplitud = valorLimite;
@@ -360,10 +322,7 @@ class Canvas {
   }
 
   actualizarAmplitudInput(valor) {
-    if (
-      valor > valoresIniciales.amplitud_max ||
-      valor < -valoresIniciales.amplitud_max
-    ) {
+    if (valor > valoresIniciales.amplitud_max || valor < -valoresIniciales.amplitud_max) {
       const valorLimite = valoresIniciales.amplitud_max * Math.sign(valor);
       inputAmplitud.value = valorLimite;
       this.amplitud = valorLimite;
@@ -471,34 +430,29 @@ class Canvas {
     const velocidad = -amplitud * Math.sin(frecuenciaAngular * t + faseInicial);
     const aceleracion = -Math.pow(this.frecuenciaAngular, 2) * posicion;
 
-    document.getElementById(
-      "frecuencia_oscilacion"
-    ).innerText = frecuencia.toFixed(2);
-    document.getElementById("periodo_oscilacion").innerText = periodo.toFixed(
-      2
-    );
+    const energiaCinetica = 0.5 * masa * Math.pow(velocidad, 2)
+    const energiaPotencial = 0.5 * K * Math.pow(posicion, 2);
+    const energiaMecanica = energiaCinetica + energiaPotencial
+
+
+    document.getElementById("frecuencia_oscilacion").innerText = frecuencia.toFixed(2);
+    document.getElementById("periodo_oscilacion").innerText = periodo.toFixed(2);
 
     document.getElementById("tiempo_oscilacion").innerText = this.t.toFixed(2);
-    document.getElementById("posicion_oscilacion").innerText = posicion.toFixed(
-      2
-    );
-    document.getElementById(
-      "velocidad_oscilacion"
-    ).innerText = velocidad.toFixed(2);
-    document.getElementById(
-      "aceleracion_oscilacion"
-    ).innerText = aceleracion.toFixed(2);
+    document.getElementById("posicion_oscilacion").innerText = posicion.toFixed(2);
+    document.getElementById("velocidad_oscilacion").innerText = velocidad.toFixed(2);
+    document.getElementById("aceleracion_oscilacion").innerText = aceleracion.toFixed(2);
+
+    document.getElementById('energia_mecanica').innerHTML = energiaMecanica.toFixed(2)
+    document.getElementById('energia_cinetica').innerHTML = energiaCinetica.toFixed(2)
+    document.getElementById('energia_potencial').innerHTML = energiaPotencial.toFixed(2)
   }
 
   calcularPosicion() {
     const { width: anchoCanvas } = this;
     const { t, amplitud, frecuenciaAngular, faseInicial } = this;
 
-    return (
-      amplitud * Math.cos(frecuenciaAngular * t + faseInicial) +
-      anchoCanvas / 2 -
-      this.dimensionBloque / 2
-    );
+    return amplitud * Math.cos(frecuenciaAngular * t + faseInicial) + anchoCanvas / 2 - this.dimensionBloque / 2;
   }
 
   actualizarCanvas() {
@@ -531,17 +485,8 @@ class Canvas {
   }
 
   limpiarTrayectoriaMasa() {
-    const {
-      width: anchoCanvas,
-      height: altoCanvas,
-      contextPrincipal: context,
-    } = this;
-    context.clearRect(
-      5,
-      altoCanvas / 2 - this.dimensionBloque - 10,
-      anchoCanvas,
-      this.dimensionBloque + 10
-    );
+    const { width: anchoCanvas, height: altoCanvas, contextPrincipal: context } = this;
+    context.clearRect(5, altoCanvas / 2 - this.dimensionBloque - 10, anchoCanvas, this.dimensionBloque + 10);
   }
 }
 

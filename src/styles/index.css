@@ -95,7 +95,8 @@ body {
 }
 
 .FrecuenciaPeriodo .MathJax,
-.TiempoPosicionVelocidadAceleracion .MathJax  {
+.TiempoPosicionVelocidadAceleracion .MathJax,
+.Energia .MathJax  {
   display: inline !important;
 }
 
