@@ -16,6 +16,7 @@ body {
 
 #ventanagrafica {
   height: 500px;
+  width: 1000px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,11 +94,6 @@ body {
   top: 4px;
 }
 
-.Texto-Ayuda {
-  margin-top: 50px;
-  justify-content: flex-end;
-}
-
 .FrecuenciaPeriodo .MathJax,
 .TiempoPosicionVelocidadAceleracion .MathJax  {
   display: inline !important;
@@ -109,3 +105,46 @@ body {
   display: inline-block;
 }
 
+.Texto-Ayuda {
+  position: absolute;
+    right: 20px;
+  bottom: 20px;
+}
+
+.Texto-Ayuda .MathJax {
+  display: inline !important;
+}
+
+.Texto-Ayuda-UL {
+  list-style: inherit;
+  margin: initial;
+  padding-left: 30px !important;
+}
+
+/* Tooltip contenedor */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 2px dotted #f14668!important;
+}
+
+/* texto Tooltip */
+.tooltip .tooltiptext {
+  border: solid 1px gray;
+  visibility: hidden;
+  width: 320px;
+  background-color: white;
+  color: black;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  position: absolute;
+  left: -325px;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

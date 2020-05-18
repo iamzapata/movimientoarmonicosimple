@@ -28,45 +28,30 @@
       <div id="ventanagrafica">
         <canvas id="canvassecundario"></canvas>
         <canvas id="canvasprincipal"></canvas>
+        <div class="columns Texto-Ayuda">
+          <div class="tooltip">
+            <span class="has-text-danger">?</span>
+            <span class="tooltiptext">
+              <ul class="Texto-Ayuda-UL">
+                <li class="has-text-grey has-text-weight-light">
+                  Usar <strong>.</strong> en vez de <strong>,</strong> como
+                  separador decimal.
+                </li>
+                <li class="has-text-grey has-text-weight-light">
+                  El peso de la masa es de
+                  <strong>1 <span>\[kg\]</span></strong>.
+                </li>
+                <li class="has-text-grey has-text-weight-light">
+                  La constante del resorte es de
+                  <strong>100 <span>\[N/m\]</span></strong>.
+                </li>
+              </ul>
+            </span>
+          </div>
+        </div>
       </div>
       <section class="Controles section">
         <div class="container is-fluid is-paddingless">
-          <div class="columns">
-            <div class="column FrecuenciaPeriodo">
-             <p> 
-               \[f=\]
-               <span class="has-text-grey" id='frecuencia_oscilacion'>0</span>
-               \[Hz\]
-              </p>
-              <p>   
-                \[T=\]
-                <span class="has-text-grey" id='periodo_oscilacion'>0</span>
-                \[s\]
-              </p>
-            </div>
-            <div class="column TiempoPosicionVelocidadAceleracion">
-              <p>          
-                \[t=\]
-                <span class="has-text-grey" id='tiempo_oscilacion'>0</span>
-                \[s\]
-              </p>
-              <p>
-                \[x(t)=\]
-                <span class="has-text-grey" id='posicion_oscilacion'>0</span>
-                \[m\]
-              </p>
-              <p>
-                \[v(t)=\]
-                <span class="has-text-grey" id='velocidad_oscilacion'>0</span>
-                \[m/s\]
-              </p>
-              <p>
-                \[a(t)=\]
-                <span class="has-text-grey" id='aceleracion_oscilacion'>0</span>
-                \[m/s^2\]
-              </p>
-            </div>
-          </div>
           <div class="columns">
             <div class="column">
               \[x(t)= Asin(\omega t + \phi)\] \[f=\frac {\omega }{2\pi}\]
@@ -84,6 +69,42 @@
             <div class="column">
               \[\boldsymbol{f} \text{ es la frecuencia de oscilación.}\]
               \[\boldsymbol{T} \text{ es el período de oscilación}.\]
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column FrecuenciaPeriodo">
+              <p>
+                \[f=\]
+                <span class="has-text-grey" id="frecuencia_oscilacion">0</span>
+                \[Hz\]
+              </p>
+              <p>
+                \[T=\]
+                <span class="has-text-grey" id="periodo_oscilacion">0</span>
+                \[s\]
+              </p>
+            </div>
+            <div class="column TiempoPosicionVelocidadAceleracion">
+              <p>
+                \[t=\]
+                <span class="has-text-grey" id="tiempo_oscilacion">0</span>
+                \[s\]
+              </p>
+              <p>
+                \[x(t)=\]
+                <span class="has-text-grey" id="posicion_oscilacion">0</span>
+                \[m\]
+              </p>
+              <p>
+                \[v(t)=\]
+                <span class="has-text-grey" id="velocidad_oscilacion">0</span>
+                \[m/s\]
+              </p>
+              <p>
+                \[a(t)=\]
+                <span class="has-text-grey" id="aceleracion_oscilacion">0</span>
+                \[m/s^2\]
+              </p>
             </div>
           </div>
           <div class="columns">
@@ -161,7 +182,11 @@
                         name="unidades_fase_inicial"
                         value="grados"
                       />
-                      <label class='FaseInicialGrados has-text-grey' for="grados">°</label>
+                      <label
+                        class="FaseInicialGrados has-text-grey"
+                        for="grados"
+                        >°</label
+                      >
                     </div>
                     <div class="field">
                       <input
@@ -217,11 +242,7 @@
               </div>
             </div>
           </div>
-          <div class="columns Texto-Ayuda">
-            <ul style='list-style:inherit'>
-             <li class="has-text-grey"> Usar <strong>.</strong> en vez de <strong>,</strong> como separador decimal.</li>
-            </p>
-          </div>
+
         </div>
       </section>
     </div>

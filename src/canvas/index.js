@@ -1,6 +1,6 @@
 import autoBind from "auto-bind";
 import valoresIniciales from "src/init/valoresIniciales";
-import { PI, PI2 } from "src/constants";
+import { PI, PI2, masa, K } from "src/constants";
 import {
   botonIniciar,
   botonPausar,
@@ -10,6 +10,7 @@ import {
   inputFaseInicial,
 } from "src/controles";
 import { establecerValoresInput } from "src/init";
+
 
 class Canvas {
   constructor() {
