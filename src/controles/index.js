@@ -14,10 +14,19 @@ const botonPausar = document.getElementsByName('pausar')[0]
 
 const botonParar = document.getElementsByName('parar')[0]
 
+const inputVelocidadAnimacion = document.getElementById('velocidad_animacion_range')
+
+const botonIncrementarRapidez = document.getElementsByName('mas_rapido')[0]
+
+const botonReducirRapidez = document.getElementsByName('mas_lento')[0]
+
 
 export {
   rangeAmplitud,
   inputAmplitud, 
+  inputVelocidadAnimacion,
+  botonIncrementarRapidez,
+  botonReducirRapidez,
   inputFrecuenciaAngular,
   inputFaseInicial,
   botonRadioGrados,

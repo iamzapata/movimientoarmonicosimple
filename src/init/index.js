@@ -7,6 +7,9 @@ import {
   botonIniciar,
   botonPausar,
   botonParar,
+  inputVelocidadAnimacion,
+  botonIncrementarRapidez,
+  botonReducirRapidez,
 } from "src/controles";
 
 // Canvas principal donde se dibuja el bloque y resorte.
@@ -24,9 +27,11 @@ const establecerValoresInput = () => {
   inputAmplitud.max = valoresIniciales.amplitud_max;
 
   inputFrecuenciaAngular.value = valoresIniciales.frecuencia_angular;
-  botonRadioGrados.checked = true
+  botonRadioGrados.checked = true;
 
   inputFaseInicial.value = valoresIniciales.fase_inicial;
+
+  inputVelocidadAnimacion.value = 1;
 };
 
 establecerValoresInput();
@@ -78,7 +83,6 @@ inputFrecuenciaAngular.oninput = (evento) => despacharEvento(evento);
 // Evento Input Radio - Unidades Frecuencia Angular
 document.addEventListener("input", (evento) => {
   if (evento.target.getAttribute("name") == "unidades_fase_inicial") {
-    
     const { name, value } = evento.target;
 
     const nuevoEvento = new CustomEvent("controlarCanvas", {
@@ -107,5 +111,23 @@ botonPausar.onclick = (evento) => despacharEvento(evento);
 // Event Click - Parar
 document.removeEventListener("onClick", botonParar.onclick);
 botonParar.onclick = (evento) => despacharEvento(evento);
+
+// Evento Input - Velocidad Animacion
+inputVelocidadAnimacion.removeEventListener(
+  "input",
+  inputVelocidadAnimacion.oninput
+);
+inputVelocidadAnimacion.oninput = (evento) => despacharEvento(evento);
+
+// Evento Click - Mas Lento
+botonIncrementarRapidez.removeEventListener(
+  "onClick",
+  botonIncrementarRapidez.onclick
+);
+botonIncrementarRapidez.onclick = (evento) => despacharEvento(evento);
+
+// Evento Click - Mas Rapido
+botonReducirRapidez.removeEventListener("onClick", botonReducirRapidez.onclick);
+botonReducirRapidez.onclick = (evento) => despacharEvento(evento);
 
 export { establecerValoresInput };
