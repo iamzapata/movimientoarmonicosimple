@@ -9,6 +9,7 @@ import {
   rangeAmplitud,
   inputAmplitud,
   inputFaseInicial,
+  inputFrecuenciaAngular,
   inputVelocidadAnimacion,
 } from "src/controles";
 import { establecerValoresInput } from "src/init";
@@ -337,7 +338,8 @@ class Canvas {
     botonIniciar.disabled = false;
   }
 
-  actualizarFaseInicial(valor) {dibu
+  actualizarFaseInicial(valor) {
+    dibu;
     const { unidadesFaseInicial } = this;
     let faseInicial = valor;
     const radianes = (valor * PI) / 180;
@@ -370,7 +372,10 @@ class Canvas {
         this.actualizarAmplitudInput(valor);
         break;
       case "frecuencia_angular":
-        if (valor < 0) return;
+        if (valor < 0) {
+          inputFrecuenciaAngular.value = 0;
+          return;
+        }
         this.frecuenciaAngular = valor;
         break;
       case "fase_inicial":
@@ -430,11 +435,11 @@ class Canvas {
     const velocidad = -amplitud * Math.sin(frecuenciaAngular * t + faseInicial);
     const aceleracion = -Math.pow(this.frecuenciaAngular, 2) * posicion;
 
-    const energiaCinetica = 0.5 * masa * Math.pow(velocidad, 2)
-    const energiaCineticaMax = 0.5 * masa * Math.pow(frecuenciaAngular, 2) * Math.pow(amplitud, 2)
+    const energiaCinetica = 0.5 * masa * Math.pow(velocidad, 2);
+    const energiaCineticaMax = 0.5 * masa * Math.pow(frecuenciaAngular, 2) * Math.pow(amplitud, 2);
     const energiaPotencial = 0.5 * K * Math.pow(posicion, 2);
-    const energiaPotencialMax = 0.5 * K * Math.pow(amplitud, 2)
-    const energiaMecanica = energiaCinetica + energiaPotencial
+    const energiaPotencialMax = 0.5 * K * Math.pow(amplitud, 2);
+    const energiaMecanica = energiaCinetica + energiaPotencial;
 
     document.getElementById("frecuencia_oscilacion").innerText = frecuencia.toFixed(2);
     document.getElementById("periodo_oscilacion").innerText = periodo.toFixed(2);
@@ -444,20 +449,18 @@ class Canvas {
     document.getElementById("velocidad_oscilacion").innerText = velocidad.toFixed(2);
     document.getElementById("aceleracion_oscilacion").innerText = aceleracion.toFixed(2);
 
-    document.getElementById('energia_mecanica').innerHTML = energiaMecanica.toFixed(2)
-    document.getElementById('energia_cinetica').innerHTML = energiaCinetica.toFixed(2)
-    document.getElementById('energia_potencial').innerHTML = energiaPotencial.toFixed(2)
+    document.getElementById("energia_mecanica").innerHTML = energiaMecanica.toFixed(2);
+    document.getElementById("energia_cinetica").innerHTML = energiaCinetica.toFixed(2);
+    document.getElementById("energia_potencial").innerHTML = energiaPotencial.toFixed(2);
 
-    document.getElementById('energia_mecanica_barra').value = energiaMecanica
-    document.getElementById('energia_mecanica_barra').max = energiaPotencialMax
+    document.getElementById("energia_mecanica_barra").value = energiaMecanica;
+    document.getElementById("energia_mecanica_barra").max = energiaPotencialMax;
 
-    document.getElementById('energia_cinetica_barra').value = energiaCinetica
-    document.getElementById('energia_cinetica_barra').max = energiaCineticaMax
+    document.getElementById("energia_cinetica_barra").value = energiaCinetica;
+    document.getElementById("energia_cinetica_barra").max = energiaCineticaMax;
 
-    document.getElementById('energia_potencial_barra').value = energiaPotencial
-    document.getElementById('energia_potencial_barra').max = energiaPotencialMax
-
-
+    document.getElementById("energia_potencial_barra").value = energiaPotencial;
+    document.getElementById("energia_potencial_barra").max = energiaPotencialMax;
   }
 
   calcularPosicion() {
